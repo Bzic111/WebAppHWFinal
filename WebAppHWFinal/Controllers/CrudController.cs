@@ -11,5 +11,29 @@ namespace WebAppHWFinal.Controllers
         {
 
         }
+        
+        [HttpPost("create")]
+        public IActionResult Create()
+        {
+            return Ok();
+        }
+        
+        [HttpGet("read")]
+        public IActionResult Read()
+        {
+            return Ok();
+        }
+        
+        [HttpPut("update")]
+        public IActionResult Update()
+        {
+            return Ok();
+        }
+
+        [HttpDelete("delete")]
+        public IActionResult Delete()
+        {
+            return Ok();
+        }
     }
 }
