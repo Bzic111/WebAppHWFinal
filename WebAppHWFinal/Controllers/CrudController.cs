@@ -14,14 +14,14 @@ namespace WebAppHWFinal.Controllers
         }
         
         [HttpPost("create/{str}")]
-        public IActionResult Create([FromQuery] string str)
+        public IActionResult Create([FromRoute] string str)
         {
             _holder.Add(str);
             return Ok();
         }
         
         [HttpGet("read/{num}")]
-        public IActionResult Read([FromQuery] int num)
+        public IActionResult Read([FromRoute] int num)
         {
             string temp = _holder.Get(num)!;
             if (temp is not null)
@@ -31,7 +31,7 @@ namespace WebAppHWFinal.Controllers
         }
         
         [HttpPut("update/{num}/{str}")]
-        public IActionResult Update([FromQuery] string str, [FromQuery] int num)
+        public IActionResult Update([FromRoute] string str, [FromRoute] int num)
         {
             if (_holder.Update(num,str))
                 return Ok("updated");
@@ -40,7 +40,7 @@ namespace WebAppHWFinal.Controllers
         }
 
         [HttpDelete("delete/{num}")]
-        public IActionResult Delete([FromQuery] int num)
+        public IActionResult Delete([FromRoute] int num)
         {
             if (_holder.Delete(num))
                 return Ok("Deleted");
