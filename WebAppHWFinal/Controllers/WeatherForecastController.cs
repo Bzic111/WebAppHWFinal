@@ -34,16 +34,16 @@ public class WeatherForecastController : ControllerBase
         return Ok(_forecastHolder.UpdateForecast(date, tempC, summary));
     }
 
-    [HttpDelete("api/delete_by/{date}")]
+    [HttpDelete("api/delete_by_date/{date}")]
     public IActionResult DeleteByDate([FromRoute] string date)
     {
         return Ok(_forecastHolder.DeleteForecast(date));
     }
 
-    //[HttpDelete("api/delete_by/{id}")]
-    //public IActionResult DeleteById([FromRoute] int id)
-    //{
-    //    return Ok(_forecastHolder.DeleteForecast(id));
-    //}
+    [HttpDelete("api/delete_by_id/{id}")]
+    public IActionResult DeleteById([FromRoute] int id)
+    {
+        return Ok(_forecastHolder.DeleteForecast(id));
+    }
 
 }
