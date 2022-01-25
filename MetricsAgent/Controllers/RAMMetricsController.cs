@@ -8,7 +8,7 @@ namespace MetricsAgent.Controllers;
 public class RAMMetricsController : ControllerBase
 {
     [HttpGet("ram/available/from/{fromTime}/to/{toTime}")]
-    public IActionResult GetRAMMetrics([FromRoute] TimeSpan fromTime, [FromRoute] TimeSpan toTime)
+    public IActionResult GetRAMMetrics([FromRoute] DateTime fromTime, [FromRoute] DateTime toTime)
     {
         return Ok();
     }

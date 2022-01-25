@@ -8,12 +8,12 @@ namespace MetricsManager.Controllers;
 public class NetworkMetricsController : ControllerBase
 {
     [HttpGet("agent/{agentId}/from/{fromTime}/to/{toTime}")]
-    public IActionResult GetMetricsFromAgent([FromRoute] int agentId, [FromRoute] TimeSpan fromTime, [FromRoute] TimeSpan toTime)
+    public IActionResult GetMetricsFromAgent([FromRoute] int agentId, [FromRoute] DateTime fromTime, [FromRoute] DateTime toTime)
     {
         return Ok();
     }
     [HttpGet("cluster/from/{fromTime}/to/{toTime}")]
-    public IActionResult GetMetricsFromCluster([FromRoute] TimeSpan fromTime, [FromRoute] TimeSpan toTime)
+    public IActionResult GetMetricsFromCluster([FromRoute] DateTime fromTime, [FromRoute] DateTime toTime)
     {
         return Ok();
     }

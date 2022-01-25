@@ -16,8 +16,8 @@ public class NetworkMetricsControllerUnitTest
 
     public void GetNetworkMetrics_ReturnsOk()
     {
-        var fromTime = TimeSpan.FromSeconds(0);
-        var toTime = TimeSpan.FromSeconds(100);
+        var fromTime = DateTime.FromSeconds(0);
+        var toTime = DateTime.FromSeconds(100);
 
         var result = controller.GetNetworkMetrics(fromTime, toTime);
         _ = Assert.IsAssignableFrom<IActionResult>(result);

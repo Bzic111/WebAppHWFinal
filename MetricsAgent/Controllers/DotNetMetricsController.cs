@@ -9,7 +9,7 @@ public class DotNetMetricsController : ControllerBase
 {
 
     [HttpGet("dotnet/errors-count/from/{fromTime}/to/{toTime}")]
-    public IActionResult GetDotNetMetrics([FromRoute] TimeSpan fromTime, [FromRoute] TimeSpan toTime)
+    public IActionResult GetDotNetMetrics([FromRoute] DateTime fromTime, [FromRoute] DateTime toTime)
     {
         return Ok();
     }

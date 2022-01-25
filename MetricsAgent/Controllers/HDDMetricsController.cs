@@ -8,7 +8,7 @@ namespace MetricsAgent.Controllers;
 public class HDDMetricsController : ControllerBase
 {
     [HttpGet("hdd/left/from/{fromTime}/to/{toTime}")]
-    public IActionResult GetHDDMetrics([FromRoute] TimeSpan fromTime, [FromRoute] TimeSpan toTime)
+    public IActionResult GetHDDMetrics([FromRoute] DateTime fromTime, [FromRoute] DateTime toTime)
     {
         return Ok();
     }

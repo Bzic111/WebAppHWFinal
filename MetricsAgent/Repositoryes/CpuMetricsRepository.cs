@@ -48,7 +48,7 @@ public class CpuMetricsRepository : ICpuMetricsRepository
                 {
                     Id = reader.GetInt32(0),
                     Value = reader.GetInt32(1),
-                    Time = TimeSpan.FromSeconds(reader.GetInt32(2))
+                    Time = DateTime.FromSeconds(reader.GetInt32(2))
                 });
             }
         }
@@ -69,7 +69,7 @@ public class CpuMetricsRepository : ICpuMetricsRepository
                 {
                     Id = reader.GetInt32(0),
                     Value = reader.GetInt32(1),
-                    Time = TimeSpan.FromSeconds(reader.GetInt32(1))
+                    Time = DateTime.FromSeconds(reader.GetInt32(1))
                 };
             }
             else

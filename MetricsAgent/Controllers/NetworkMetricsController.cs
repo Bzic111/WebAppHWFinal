@@ -8,7 +8,7 @@ namespace MetricsAgent.Controllers;
 public class NetworkMetricsController : ControllerBase
 {
     [HttpGet("network/from/{fromTime}/to/{toTime}")]
-    public IActionResult GetNetworkMetrics([FromRoute] TimeSpan fromTime, [FromRoute] TimeSpan toTime)
+    public IActionResult GetNetworkMetrics([FromRoute] DateTime fromTime, [FromRoute] DateTime toTime)
     {
         return Ok();
     }

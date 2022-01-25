@@ -49,7 +49,7 @@ public class CPUMetricsController : ControllerBase
         return Ok(response);
     }
     [HttpGet("from/{fromTime}/to/{toTime}")]
-    public IActionResult GetCPUMetrics([FromRoute] TimeSpan fromTime, [FromRoute] TimeSpan toTime)
+    public IActionResult GetCPUMetrics([FromRoute] DateTime fromTime, [FromRoute] DateTime toTime)
     {
         return Ok();
     }
