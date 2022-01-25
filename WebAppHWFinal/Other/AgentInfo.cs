@@ -1,4 +1,4 @@
-﻿namespace WebAppHWFinal.Other;
+﻿namespace MetricsManager.Other;
 
 public class AgentInfo
 {

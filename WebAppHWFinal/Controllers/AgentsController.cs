@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using MetricsManager.Other;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using WebAppHWFinal.Other;
 
-namespace WebAppHWFinal.Controllers;
+namespace MetricsManager.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]

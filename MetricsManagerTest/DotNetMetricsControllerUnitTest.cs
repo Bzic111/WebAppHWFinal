@@ -1,8 +1,8 @@
-﻿using WebAppHWFinal.Controllers;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System;
 
 using Xunit;
+using MetricsManager.Controllers;
 
 namespace MetricsManagerTest;
 
