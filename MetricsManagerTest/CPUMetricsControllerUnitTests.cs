@@ -17,7 +17,7 @@ public class CPUMetricsControllerUnitTests
     //[Fact]
     public void GetMetricsFromAgent_ReturnsOk()
     {
-        var agentId = 1; 
+        var agentId = 1;
         var fromTime = DateTime.Now - TimeSpan.FromDays(1);
         var toTime = DateTime.Now;
 

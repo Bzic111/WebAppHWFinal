@@ -1,14 +1,56 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using MetricsAgent.Interfaces;
+using MetricsAgent.Models;
+using MetricsAgent.Requests;
+using MetricsAgent.Responses;
+using MetricsAgent.DTO;
+using Microsoft.AspNetCore.Http;
+using MetricsAgent.Repositoryes;
 
 namespace MetricsAgent.Controllers;
 
-[Route("api/metrics")]
+[Route("api/metrics/dotnet")]
 [ApiController]
 public class DotNetMetricsController : ControllerBase
 {
+    private IDotNetRepository _repository;
+    public DotNetMetricsController(IDotNetRepository repo)
+    {
+        _repository = repo;
+    }
 
-    [HttpGet("dotnet/errors-count/from/{fromTime}/to/{toTime}")]
+    [HttpPost("create")]
+    public IActionResult Create([FromBody] DotNetCreateRequest request)
+    {
+        _repository.Create(new DotNetMetric
+        {
+            Time = request.Time,
+            Value = request.Value
+        });
+        return Ok();
+    }
+
+    [HttpGet("all")]
+    public IActionResult GetAll()
+    {
+        var metrics = _repository.GetAll();
+        var response = new AllDotNetMetricsResponse()
+        {
+            Metrics = new List<DotNetMetricDto>()
+        };
+        foreach (var metric in metrics)
+        {
+            response.Metrics.Add(new DotNetMetricDto
+            {
+                Time = metric.Time,
+                Value = metric.Value,
+                Id = metric.Id
+            });
+        }
+        return Ok(response);
+    }
+
+    [HttpGet("errors-count/from/{fromTime}/to/{toTime}")]
     public IActionResult GetDotNetMetrics([FromRoute] DateTime fromTime, [FromRoute] DateTime toTime)
     {
         return Ok();

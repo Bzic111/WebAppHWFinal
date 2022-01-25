@@ -1,22 +1,55 @@
+using NLog.Web;
+using MetricsAgent.Interfaces;
+using MetricsAgent.Repositoryes;
+using System.Data.SQLite;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Hosting;
 using MetricsAgent;
 using MetricsAgent.Controllers;
-using MetricsAgent.Interfaces;
 using MetricsAgent.Models;
 using MetricsAgent.Other;
-using MetricsAgent.Repositoryes;
 //using MetricsAgent.DAL;
-using System.Data.SQLite;
 
 
 
 
 var builder = WebApplication.CreateBuilder(args);
-
+var logger = NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
+try
+{
+    logger.Debug("init main");
+    CreateHostBuilder(args).Build().Run();
+}
+catch (Exception exception)                                                     // отлов всех исключений в рамках работы приложения
+{
+    //NLog: устанавливаем отлов исключений
+    logger.Error(exception, "Stopped program because of exception");
+    throw;
+}
+finally                                                                         // остановка логера
+{
+    NLog.LogManager.Shutdown();
+}
+static IHostBuilder CreateHostBuilder(string[] args) =>
+Host.CreateDefaultBuilder(args).ConfigureWebHostDefaults(webBuilder =>
+{
+    webBuilder.UseStartup<IStartup>();
+})
+    .ConfigureLogging(logging =>
+    {
+        logging.ClearProviders();                                               // создание провайдеров логирования
+        logging.SetMinimumLevel(LogLevel.Trace);                                // устанавливаем минимальный уровень логирования
+    }).UseNLog();
 
 
 builder.Services.AddControllers();
 ConfigureSqlLiteConnection(builder.Services);
 builder.Services.AddScoped<ICpuMetricsRepository, CpuMetricsRepository>();
+builder.Services.AddScoped<IRamMetricsRepository, RamMetricsRepository>();
+builder.Services.AddScoped<IHddMetricsRepository, HddMetricsRepository>();
+builder.Services.AddScoped<IDotNetRepository, DotNetMetricsRepository>();
+builder.Services.AddScoped<INetworkRepository, INetworkRepository>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

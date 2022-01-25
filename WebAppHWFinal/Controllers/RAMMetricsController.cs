@@ -7,6 +7,12 @@ namespace MetricsManager.Controllers;
 [ApiController]
 public class RAMMetricsController : ControllerBase
 {
+    private readonly ILogger<RAMMetricsController> _logger;
+
+    public RAMMetricsController(ILogger<RAMMetricsController> logger)
+    {
+        _logger = logger;
+    }
     [HttpGet("agent/{agentId}/from/{fromTime}/to/{toTime}")]
     public IActionResult GetMetricsFromAgent([FromRoute] int agentId, [FromRoute] DateTime fromTime, [FromRoute] DateTime toTime)
     {

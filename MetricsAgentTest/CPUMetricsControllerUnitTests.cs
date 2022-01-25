@@ -24,6 +24,6 @@ public class CPUMetricsControllerUnitTests
     {
         mock.Setup(repository => repository.Create(It.IsAny<CpuMetric>())).Verifiable();
         var result = controller.Create(new MetricsAgent.Requests.CpuMetricCreateRequest { Time = DateTime.Now, Value = 50 });
-        mock.Verify(repository => repository.Create(It.IsAny<CpuMetric>()),Times.AtMostOnce());
+        mock.Verify(repository => repository.Create(It.IsAny<CpuMetric>()), Times.AtMostOnce());
     }
 }

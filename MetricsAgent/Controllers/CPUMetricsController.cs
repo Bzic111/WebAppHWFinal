@@ -13,26 +13,27 @@ namespace MetricsAgent.Controllers;
 [ApiController]
 public class CPUMetricsController : ControllerBase
 {
-    private ICpuMetricsRepository _cpuMetricsRepository;
+    private ICpuMetricsRepository _repository;
     public CPUMetricsController(ICpuMetricsRepository repo)
     {
-        _cpuMetricsRepository = repo;
+        _repository = repo;
     }
-    [HttpPost("create")]
 
+    [HttpPost("create")]
     public IActionResult Create([FromBody] CpuMetricCreateRequest request)
     {
-        _cpuMetricsRepository.Create(new CpuMetric
+        _repository.Create(new CpuMetric
         {
             Time = request.Time,
             Value = request.Value
         });
         return Ok();
     }
+
     [HttpGet("all")]
     public IActionResult GetAll()
     {
-        var metrics = _cpuMetricsRepository.GetAll();
+        var metrics = _repository.GetAll();
         var response = new AllCpuMetricsResponse()
         {
             Metrics = new List<CpuMetricDto>()

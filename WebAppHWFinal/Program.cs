@@ -16,21 +16,20 @@ catch (Exception exception)                                                     
     logger.Error(exception, "Stopped program because of exception");
     throw;
 }
-finally
+finally                                                                         // остановка логера
 {
-    // остановка логера
     NLog.LogManager.Shutdown();
 }
 static IHostBuilder CreateHostBuilder(string[] args) =>
 Host.CreateDefaultBuilder(args).ConfigureWebHostDefaults(webBuilder =>
-{
-    webBuilder.UseStartup<IStartup>();
-})
-.ConfigureLogging(logging =>
-{
-    logging.ClearProviders();                                                   // создание провайдеров логирования
-    logging.SetMinimumLevel(LogLevel.Trace);                                    // устанавливаем минимальный уровень логирования
-}).UseNLog();
+    {
+        webBuilder.UseStartup<IStartup>();
+    })
+    .ConfigureLogging(logging =>
+    {
+        logging.ClearProviders();                                               // создание провайдеров логирования
+        logging.SetMinimumLevel(LogLevel.Trace);                                // устанавливаем минимальный уровень логирования
+    }).UseNLog();
 
 // Add services to the container.
 

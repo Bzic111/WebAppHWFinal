@@ -1,13 +1,54 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using MetricsAgent.Interfaces;
+using MetricsAgent.Models;
+using MetricsAgent.Requests;
+using MetricsAgent.Responses;
+using MetricsAgent.DTO;
+using Microsoft.AspNetCore.Http;
+using MetricsAgent.Repositoryes;
 
 namespace MetricsAgent.Controllers;
 
-[Route("api/metrics")]
+[Route("api/metrics/hdd")]
 [ApiController]
 public class HDDMetricsController : ControllerBase
 {
-    [HttpGet("hdd/left/from/{fromTime}/to/{toTime}")]
+    private IHddMetricsRepository _repository;
+    public HDDMetricsController(IHddMetricsRepository repo)
+    {
+        _repository = repo;
+    }
+    [HttpPost("create")]
+    public IActionResult Create([FromBody] HddMetricCreateRequest request)
+    {
+        _repository.Create(new HddMetric
+        {
+            Time = request.Time,
+            Value = request.Value
+        });
+        return Ok();
+    }
+
+    [HttpGet("all")]
+    public IActionResult GetAll()
+    {
+        var metrics = _repository.GetAll();
+        var response = new AllHddMetricsResponse()
+        {
+            Metrics = new List<HddMetricDto>()
+        };
+        foreach (var metric in metrics)
+        {
+            response.Metrics.Add(new HddMetricDto
+            {
+                Time = metric.Time,
+                Value = metric.Value,
+                Id = metric.Id
+            });
+        }
+        return Ok(response);
+    }
+    [HttpGet("left/from/{fromTime}/to/{toTime}")]
     public IActionResult GetHDDMetrics([FromRoute] DateTime fromTime, [FromRoute] DateTime toTime)
     {
         return Ok();

@@ -7,6 +7,12 @@ namespace MetricsManager.Controllers;
 [ApiController]
 public class HDDMetricsController : ControllerBase
 {
+    private readonly ILogger<HDDMetricsController> _logger;
+
+    public HDDMetricsController(ILogger<HDDMetricsController> logger)
+    {
+        _logger = logger;
+    }
     [HttpGet("agent/{agentId}/from/{fromTime}/to/{toTime}")]
     public IActionResult GetMetricsFromAgent([FromRoute] int agentId, [FromRoute] DateTime fromTime, [FromRoute] DateTime toTime)
     {

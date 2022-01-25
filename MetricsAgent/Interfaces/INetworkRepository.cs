@@ -2,6 +2,7 @@
 
 namespace MetricsAgent.Interfaces;
 
-public interface ICpuMetricsRepository : IRepository<CpuMetric>
+public interface INetworkRepository : IRepository<NetworkMetric>
 {
+
 }

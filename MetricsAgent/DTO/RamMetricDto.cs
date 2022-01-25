@@ -1,6 +1,6 @@
 ﻿namespace MetricsAgent.DTO;
 
-public class CpuMetricDto
+public class RamMetricDto
 {
     public DateTime Time { get; set; }
     public int Value { get; set; }
