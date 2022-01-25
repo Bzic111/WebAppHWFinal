@@ -17,9 +17,8 @@ public class NetworkMetricsControllerUnitTest
     public void GetNetworkMetricsFromAgent_ReturnsOk()
     {
         var agentId = 1;
-        var fromTime = DateTime.FromSeconds(0);
-        var toTime = DateTime.FromSeconds(100);
-
+        var fromTime = DateTime.Now - TimeSpan.FromDays(1);
+        var toTime = DateTime.Now;
         var result = controller.GetMetricsFromAgent(agentId, fromTime, toTime);
         _ = Assert.IsAssignableFrom<IActionResult>(result);
     }
@@ -27,8 +26,8 @@ public class NetworkMetricsControllerUnitTest
     [Fact]
     public void GetNetworkMetricsFromCluster_ReturnsOk()
     {
-        var fromTime = DateTime.FromSeconds(0);
-        var toTime = DateTime.FromSeconds(100);
+        var fromTime = DateTime.Now - TimeSpan.FromDays(1);
+        var toTime = DateTime.Now;
 
         var result = controller.GetMetricsFromCluster(fromTime, toTime);
         _ = Assert.IsAssignableFrom<IActionResult>(result);
