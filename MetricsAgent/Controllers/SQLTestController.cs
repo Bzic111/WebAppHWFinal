@@ -18,7 +18,7 @@ public class SQLTestController : ControllerBase
         {
             con.Open();
             using var cmd = new SQLiteCommand(stm, con);
-            string version = cmd.ExecuteScalar().ToString();
+            string version = cmd.ExecuteScalar().ToString()!;
             return Ok(version);
         }
     }
@@ -38,7 +38,7 @@ public class SQLTestController : ControllerBase
                 command.ExecuteNonQuery();
                 for (int i = 0; i < 4; i++)
                 {
-                    command.CommandText = @$"INSERT INTO cpumetrics(value, time) VALUES({(i + 10)*2},{(i + 2)*3})";
+                    command.CommandText = @$"INSERT INTO cpumetrics(value, time) VALUES({(i + 10) * 2},{(i + 2) * 3})";
                     command.ExecuteNonQuery();
                 }
                 string readQuery = "SELECT * FROM cpumetrics LIMIT 3";

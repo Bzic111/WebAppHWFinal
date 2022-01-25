@@ -12,13 +12,13 @@ try
 }
 catch (Exception exception)                                                     // отлов всех исключений в рамках работы приложения
 {
-                                                                                //NLog: устанавливаем отлов исключений
+    //NLog: устанавливаем отлов исключений
     logger.Error(exception, "Stopped program because of exception");
     throw;
 }
 finally
 {
-                                                                                // остановка логера
+    // остановка логера
     NLog.LogManager.Shutdown();
 }
 static IHostBuilder CreateHostBuilder(string[] args) =>
@@ -32,18 +32,18 @@ Host.CreateDefaultBuilder(args).ConfigureWebHostDefaults(webBuilder =>
     logging.SetMinimumLevel(LogLevel.Trace);                                    // устанавливаем минимальный уровень логирования
 }).UseNLog();
 
-                                                                                // Add services to the container.
+// Add services to the container.
 
 builder.Services.AddControllers();
 
-                                                                                // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-                                                                                // Configure the HTTP request pipeline.
+// Configure the HTTP request pipeline.
 
 if (app.Environment.IsDevelopment())
 {
