@@ -14,8 +14,10 @@ namespace MetricsAgent.Controllers;
 public class DotNetMetricsController : ControllerBase
 {
     private IDotNetRepository _repository;
-    public DotNetMetricsController(IDotNetRepository repo)
+    private readonly ILogger<DotNetMetricsController> _logger;
+    public DotNetMetricsController(IDotNetRepository repo,ILogger<DotNetMetricsController> logger)
     {
+        _logger = logger;
         _repository = repo;
     }
 

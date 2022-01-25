@@ -12,9 +12,11 @@ namespace MetricsAgent.Controllers;
 [ApiController]
 public class RAMMetricsController : ControllerBase
 {
+    private readonly ILogger<RAMMetricsController> _logger;
     private IRamMetricsRepository _repository;
-    public RAMMetricsController(IRamMetricsRepository repo)
+    public RAMMetricsController(IRamMetricsRepository repo, ILogger<RAMMetricsController> logger)
     {
+        _logger = logger;
         _repository = repo;
     }
     [HttpPost("create")]

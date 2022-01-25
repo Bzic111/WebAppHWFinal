@@ -14,8 +14,10 @@ namespace MetricsAgent.Controllers;
 public class CPUMetricsController : ControllerBase
 {
     private ICpuMetricsRepository _repository;
-    public CPUMetricsController(ICpuMetricsRepository repo)
+    private readonly ILogger<CPUMetricsController> _logger;
+    public CPUMetricsController(ICpuMetricsRepository repo,ILogger<CPUMetricsController> logger)
     {
+        _logger = logger;
         _repository = repo;
     }
 
