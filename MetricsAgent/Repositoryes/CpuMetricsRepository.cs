@@ -17,7 +17,7 @@ public class CpuMetricsRepository : ICpuMetricsRepository
         using var cmd = new SQLiteCommand(connection);
         cmd.CommandText = "INSERT INTO cpumetrics(value, time) VALUES(@value,@time)";
         cmd.Parameters.AddWithValue("@value", item.Value);
-        cmd.Parameters.AddWithValue("@time", item.Time.TotalSeconds);
+        cmd.Parameters.AddWithValue("@time", item.Time.Ticks);
         cmd.Prepare();
         cmd.ExecuteNonQuery();
     }
@@ -48,7 +48,7 @@ public class CpuMetricsRepository : ICpuMetricsRepository
                 {
                     Id = reader.GetInt32(0),
                     Value = reader.GetInt32(1),
-                    Time = DateTime.FromSeconds(reader.GetInt32(2))
+                    Time = DateTime.Now - TimeSpan.FromSeconds(reader.GetInt32(2))
                 });
             }
         }
@@ -69,7 +69,7 @@ public class CpuMetricsRepository : ICpuMetricsRepository
                 {
                     Id = reader.GetInt32(0),
                     Value = reader.GetInt32(1),
-                    Time = DateTime.FromSeconds(reader.GetInt32(1))
+                    Time = DateTime.Now - TimeSpan.FromSeconds(reader.GetInt32(1))
                 };
             }
             else
@@ -85,7 +85,7 @@ public class CpuMetricsRepository : ICpuMetricsRepository
         cmd.CommandText = "UPDATE cpumetrics SET value = @value, time = @time WHERE id = @id; ";
         cmd.Parameters.AddWithValue("@id", item.Id);
         cmd.Parameters.AddWithValue("@value", item.Value);
-        cmd.Parameters.AddWithValue("@time", item.Time.TotalSeconds);
+        cmd.Parameters.AddWithValue("@time", item.Time.Ticks);
         cmd.Prepare();
         cmd.ExecuteNonQuery();
     }

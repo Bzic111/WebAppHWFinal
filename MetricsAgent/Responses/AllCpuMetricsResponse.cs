@@ -5,5 +5,5 @@ namespace MetricsAgent.Responses;
 
 public class AllCpuMetricsResponse
 {
-    public List<CpuMetricDto> Metrics { get; set; }
+    public List<CpuMetricDto>? Metrics { get; set; }
 }
