@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WebAppHWFinal\WebAppHWFinal.csproj" />
+    <ProjectReference Include="..\WebAppHWFinal\MetricsManager.csproj" />
   </ItemGroup>
 
 </Project>
