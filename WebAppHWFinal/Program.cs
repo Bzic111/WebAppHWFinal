@@ -1,14 +1,38 @@
+using NLog;
 using NLog.Web;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Hosting;
 
-var builder = WebApplication.CreateBuilder(args);
-var logger = NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
+var logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
+logger.Debug("init main");
+
+
 try
 {
-    logger.Debug("init main");
-    CreateHostBuilder(args).Build().Run();
+    var builder = WebApplication.CreateBuilder(args);
+    builder.Logging.ClearProviders();
+    builder.Logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
+    builder.Host.UseNLog();
+
+    builder.Services.AddControllers();
+    builder.Services.AddEndpointsApiExplorer();
+    builder.Services.AddSwaggerGen();
+
+    var app = builder.Build();
+    if (app.Environment.IsDevelopment())
+    {
+        app.UseSwagger();
+        app.UseSwaggerUI();
+    }
+
+    app.UseHttpsRedirection();
+
+    app.UseAuthorization();
+
+    app.MapControllers();
+
+    app.Run();
 }
 catch (Exception exception)                                                     // отлов всех исключений в рамках работы приложения
 {
@@ -20,40 +44,4 @@ finally                                                                         
 {
     NLog.LogManager.Shutdown();
 }
-static IHostBuilder CreateHostBuilder(string[] args) =>
-Host.CreateDefaultBuilder(args).ConfigureWebHostDefaults(webBuilder =>
-    {
-        webBuilder.UseStartup<IStartup>();
-    })
-    .ConfigureLogging(logging =>
-    {
-        logging.ClearProviders();                                               // создание провайдеров логирования
-        logging.SetMinimumLevel(LogLevel.Trace);                                // устанавливаем минимальный уровень логирования
-    }).UseNLog();
 
-// Add services to the container.
-
-builder.Services.AddControllers();
-
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.Run();

@@ -1,25 +1,50 @@
+using NLog;
 using NLog.Web;
 using MetricsAgent.Interfaces;
 using MetricsAgent.Repositoryes;
 using System.Data.SQLite;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Hosting;
-using MetricsAgent;
-using MetricsAgent.Controllers;
-using MetricsAgent.Models;
-using MetricsAgent.Other;
 //using MetricsAgent.DAL;
 
 
 
 
-var builder = WebApplication.CreateBuilder(args);
-var logger = NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
+var logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
+logger.Debug("init main");
+
+
 try
 {
-    logger.Debug("init main");
-    CreateHostBuilder(args).Build().Run();
+    var builder = WebApplication.CreateBuilder(args);
+    builder.Logging.ClearProviders();
+    builder.Logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
+    builder.Host.UseNLog();
+
+    ConfigureSqlLiteConnection(builder.Services);
+
+    builder.Services.AddControllers();
+    builder.Services.AddScoped<ICpuMetricsRepository, CpuMetricsRepository>();
+    builder.Services.AddScoped<IRamMetricsRepository, RamMetricsRepository>();
+    builder.Services.AddScoped<IHddMetricsRepository, HddMetricsRepository>();
+    builder.Services.AddScoped<IDotNetRepository, DotNetMetricsRepository>();
+    builder.Services.AddScoped<INetworkRepository, NetworkMetricsRepository>();
+
+    builder.Services.AddEndpointsApiExplorer();
+    builder.Services.AddSwaggerGen();
+
+    var app = builder.Build();
+    if (app.Environment.IsDevelopment())
+    {
+        app.UseSwagger();
+        app.UseSwaggerUI();
+    }
+
+    app.UseHttpsRedirection();
+
+    app.UseAuthorization();
+
+    app.MapControllers();
+
+    app.Run();
 }
 catch (Exception exception)                                                     // отлов всех исключений в рамках работы приложения
 {
@@ -31,44 +56,10 @@ finally                                                                         
 {
     NLog.LogManager.Shutdown();
 }
-static IHostBuilder CreateHostBuilder(string[] args) =>
-Host.CreateDefaultBuilder(args).ConfigureWebHostDefaults(webBuilder =>
-{
-    webBuilder.UseStartup<IStartup>();
-})
-    .ConfigureLogging(logging =>
-    {
-        logging.ClearProviders();                                               // создание провайдеров логирования
-        logging.SetMinimumLevel(LogLevel.Trace);                                // устанавливаем минимальный уровень логирования
-    }).UseNLog();
 
 
-builder.Services.AddControllers();
-ConfigureSqlLiteConnection(builder.Services);
-builder.Services.AddScoped<ICpuMetricsRepository, CpuMetricsRepository>();
-builder.Services.AddScoped<IRamMetricsRepository, RamMetricsRepository>();
-builder.Services.AddScoped<IHddMetricsRepository, HddMetricsRepository>();
-builder.Services.AddScoped<IDotNetRepository, DotNetMetricsRepository>();
-builder.Services.AddScoped<INetworkRepository, INetworkRepository>();
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
-var app = builder.Build();
-
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.Run();
 
 void ConfigureSqlLiteConnection(IServiceCollection services)
 {

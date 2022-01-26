@@ -89,4 +89,33 @@ public class CpuMetricsRepository : ICpuMetricsRepository
         cmd.Prepare();
         cmd.ExecuteNonQuery();
     }
+
+    public IList<CpuMetric> GetByTimePeriod(DateTime from, DateTime to)
+    {
+        using(var connection = new SQLiteConnection(ConnectionString))
+        {
+            connection.Open();
+            using(var cmd = new SQLiteCommand(connection))
+            {
+                cmd.CommandText = "SELECT * FROM cpumetrics WHERE Time > @from AND Time < @to";
+                cmd.Parameters.AddWithValue("@from", from);
+                cmd.Parameters.AddWithValue("@to", to);
+                cmd.Prepare();
+                var returnList = new List<CpuMetric>();
+                using (SQLiteDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        returnList.Add(new CpuMetric
+                        {
+                            Id = reader.GetInt32(0),
+                            Value = reader.GetInt32(1),
+                            Time = DateTime.Now - TimeSpan.FromSeconds(reader.GetInt32(2))
+                        });
+                    }
+                }
+                return returnList;
+            }
+        }
+    }
 }

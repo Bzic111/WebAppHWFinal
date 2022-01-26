@@ -1,5 +1,9 @@
-﻿using MetricsAgent.Controllers;
+﻿using Microsoft.Extensions.Logging;
+using MetricsAgent.Controllers;
 using Microsoft.AspNetCore.Mvc;
+using MetricsAgent.Interfaces;
+using MetricsAgent.Models;
+using Moq;
 using System;
 using Xunit;
 
@@ -8,9 +12,13 @@ namespace MetricsAgentTest;
 public class HDDMetricsControllerUnitTest
 {
     private HDDMetricsController controller;
+    private Mock<IHddMetricsRepository> mock;
+    private Mock<ILogger<HDDMetricsController>> logger;
     public HDDMetricsControllerUnitTest()
     {
-        controller = new();
+        logger = new Mock<ILogger<HDDMetricsController>>();
+        mock = new();
+        controller = new(mock.Object,logger.Object);
     }
 
     [Fact]
