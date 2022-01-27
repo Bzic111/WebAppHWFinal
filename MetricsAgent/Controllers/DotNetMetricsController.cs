@@ -15,7 +15,7 @@ public class DotNetMetricsController : ControllerBase
 {
     private IDotNetRepository _repository;
     private readonly ILogger<DotNetMetricsController> _logger;
-    public DotNetMetricsController(IDotNetRepository repo,ILogger<DotNetMetricsController> logger)
+    public DotNetMetricsController(IDotNetRepository repo, ILogger<DotNetMetricsController> logger)
     {
         _logger = logger;
         _repository = repo;

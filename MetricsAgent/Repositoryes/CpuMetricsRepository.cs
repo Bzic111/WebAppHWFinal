@@ -48,7 +48,7 @@ public class CpuMetricsRepository : ICpuMetricsRepository
                 {
                     Id = reader.GetInt32(0),
                     Value = reader.GetInt32(1),
-                    Time = DateTime.Now - TimeSpan.FromSeconds(reader.GetInt32(2))
+                    Time = reader.GetDateTime(2)//DateTime.Now - TimeSpan.FromSeconds(reader.GetInt32(2))
                 });
             }
         }
@@ -92,10 +92,10 @@ public class CpuMetricsRepository : ICpuMetricsRepository
 
     public IList<CpuMetric> GetByTimePeriod(DateTime from, DateTime to)
     {
-        using(var connection = new SQLiteConnection(ConnectionString))
+        using (var connection = new SQLiteConnection(ConnectionString))
         {
             connection.Open();
-            using(var cmd = new SQLiteCommand(connection))
+            using (var cmd = new SQLiteCommand(connection))
             {
                 cmd.CommandText = "SELECT * FROM cpumetrics WHERE Time > @from AND Time < @to";
                 cmd.Parameters.AddWithValue("@from", from);
@@ -115,6 +115,26 @@ public class CpuMetricsRepository : ICpuMetricsRepository
                     }
                 }
                 return returnList;
+            }
+        }
+    }
+
+    public void CreateTestData()
+    {
+        using (var connection = new SQLiteConnection(ConnectionString))
+        {
+            connection.Open();
+            using (var cmd = new SQLiteCommand(connection))
+            {
+                cmd.CommandText = "DROP TABLE IF EXISTS cpumetrics";
+                cmd.ExecuteNonQuery();
+                cmd.CommandText = @"CREATE TABLE cpumetrics(id INTEGER PRIMARY KEY, value INT, time INTEGER)";
+                cmd.ExecuteNonQuery();
+                for (int i = 0; i < 10; i++)
+                {
+                    cmd.CommandText = $"INSERT INTO cpumetrics(value, time) VALUES({(i + 10) * 2},{(i + 2) * 3}";
+                    cmd.ExecuteNonQuery();
+                }
             }
         }
     }

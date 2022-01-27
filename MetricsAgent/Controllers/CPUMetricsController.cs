@@ -15,7 +15,7 @@ public class CPUMetricsController : ControllerBase
 {
     private ICpuMetricsRepository _repository;
     private readonly ILogger<CPUMetricsController> _logger;
-    public CPUMetricsController(ICpuMetricsRepository repo,ILogger<CPUMetricsController> logger)
+    public CPUMetricsController(ICpuMetricsRepository repo, ILogger<CPUMetricsController> logger)
     {
         _logger = logger;
         _repository = repo;
@@ -54,6 +54,22 @@ public class CPUMetricsController : ControllerBase
     [HttpGet("from/{fromTime}/to/{toTime}")]
     public IActionResult GetCPUMetrics([FromRoute] DateTime fromTime, [FromRoute] DateTime toTime)
     {
-        return Ok();
+        _logger.LogInformation($"From = {fromTime}\nTo = {toTime}");
+        Console.WriteLine($"From = {fromTime}\nTo = {toTime}");
+        var metrics = _repository.GetByTimePeriod(fromTime, toTime);
+        var response = new AllCpuMetricsResponse()
+        {
+            Metrics = new List<CpuMetricDto>()
+        };
+        foreach (var metric in metrics)
+        {
+            response.Metrics.Add(new CpuMetricDto
+            {
+                Time = metric.Time,
+                Value = metric.Value,
+                Id = metric.Id
+            });
+        }
+        return Ok(response);
     }
 }

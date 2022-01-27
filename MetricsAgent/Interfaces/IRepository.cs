@@ -9,4 +9,6 @@ public interface IRepository<T> where T : class
     void Create(T item);
     void Update(T item);
     void Delete(int id);
+    void CreateTestData();
+    IList<T> GetByTimePeriod(DateTime from, DateTime to);
 }

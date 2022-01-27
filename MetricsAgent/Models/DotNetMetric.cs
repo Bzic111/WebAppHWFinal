@@ -1,6 +1,7 @@
-﻿namespace MetricsAgent.Models;
+﻿using MetricsAgent.Interfaces;
+namespace MetricsAgent.Models;
 
-public class DotNetMetric
+public class DotNetMetric : IModel
 {
     public int Id { get; set; }
     public int Value { get; set; }

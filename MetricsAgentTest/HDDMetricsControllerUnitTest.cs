@@ -18,7 +18,7 @@ public class HDDMetricsControllerUnitTest
     {
         logger = new Mock<ILogger<HDDMetricsController>>();
         mock = new();
-        controller = new(mock.Object,logger.Object);
+        controller = new(mock.Object, logger.Object);
     }
 
     [Fact]

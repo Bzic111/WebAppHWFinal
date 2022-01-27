@@ -15,7 +15,7 @@ public class HDDMetricsController : ControllerBase
 {
     private readonly ILogger<HDDMetricsController> _logger;
     private IHddMetricsRepository _repository;
-    public HDDMetricsController(IHddMetricsRepository repo,ILogger<HDDMetricsController> logger)
+    public HDDMetricsController(IHddMetricsRepository repo, ILogger<HDDMetricsController> logger)
     {
         _logger = logger;
         _repository = repo;

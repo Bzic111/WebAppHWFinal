@@ -108,4 +108,52 @@ public class NetworkMetricsRepository : INetworkRepository
             }
         }
     }
+
+    public void CreateTestData()
+    {
+        using (var connection = new SQLiteConnection(ConnectionString))
+        {
+            connection.Open();
+            using (var cmd = new SQLiteCommand(connection))
+            {
+                cmd.CommandText = "DROP TABLE IF EXISTS networkmetrics";
+                cmd.ExecuteNonQuery();
+                cmd.CommandText = @"CREATE TABLE networkmetrics(id INTEGER PRIMARY KEY, value INT, time INTEGER)";
+                cmd.ExecuteNonQuery();
+                for (int i = 0; i < 10; i++)
+                {
+                    cmd.CommandText = $"INSERT INTO networkmetrics(value, time) VALUES({(i + 10) * 2},{(i + 2) * 3}";
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+    }
+    public IList<NetworkMetric> GetByTimePeriod(DateTime from, DateTime to)
+    {
+        using (var connection = new SQLiteConnection(ConnectionString))
+        {
+            connection.Open();
+            using (var cmd = new SQLiteCommand(connection))
+            {
+                cmd.CommandText = "SELECT * FROM networkmetrics WHERE Time > @from AND Time < @to";
+                cmd.Parameters.AddWithValue("@from", from);
+                cmd.Parameters.AddWithValue("@to", to);
+                cmd.Prepare();
+                var returnList = new List<NetworkMetric>();
+                using (SQLiteDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        returnList.Add(new NetworkMetric
+                        {
+                            Id = reader.GetInt32(0),
+                            Value = reader.GetInt32(1),
+                            Time = DateTime.Now - TimeSpan.FromSeconds(reader.GetInt32(2))
+                        });
+                    }
+                }
+                return returnList;
+            }
+        }
+    }
 }

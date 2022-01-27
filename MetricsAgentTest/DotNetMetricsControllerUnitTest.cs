@@ -18,7 +18,7 @@ public class DotNetMetricsControllerUnitTest
     {
         logger = new Mock<ILogger<DotNetMetricsController>>();
         mock = new Mock<IDotNetRepository>();
-        controller = new(mock.Object,logger.Object);
+        controller = new(mock.Object, logger.Object);
     }
 
     [Fact]
