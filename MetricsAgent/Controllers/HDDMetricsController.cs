@@ -24,6 +24,7 @@ public class HDDMetricsController : ControllerBase
     [HttpPost("create")]
     public IActionResult Create([FromBody] HddMetricCreateRequest request)
     {
+        _logger.LogInformation($"Request: \nTime = {request.Time}\nValue = {request.Value}");
         _repository.Create(new HddMetric
         {
             Time = request.Time,
@@ -36,6 +37,7 @@ public class HDDMetricsController : ControllerBase
     public IActionResult GetAll()
     {
         var metrics = _repository.GetAll();
+        _logger.LogInformation($"GetAll() returns {(metrics is not null ? "list" : "null")}");
         var response = new AllHddMetricsResponse()
         {
             Metrics = new List<HddMetricDto>()
@@ -56,6 +58,7 @@ public class HDDMetricsController : ControllerBase
     public IActionResult GetFilteredMetrics([FromQuery] DateTime fromTime, [FromQuery] DateTime toTime)
     {
         var metrics = _repository.GetByTimePeriod(fromTime, toTime);
+        _logger.LogInformation($"GetFilteredData()\nFrom Date = {fromTime}\nTo Dota = {toTime}\n returns = {(metrics is not null ? "list" : "null")}");
         var response = new AllHddMetricsResponse() { Metrics = new List<HddMetricDto>() };
         foreach (var metric in metrics)
         {

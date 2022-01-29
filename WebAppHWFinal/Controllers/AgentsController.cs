@@ -18,16 +18,19 @@ public class AgentsController : ControllerBase
     [HttpPost("register")]
     public IActionResult RegisterAgent([FromBody] AgentInfo agentInfo)
     {
+        _logger.LogInformation($"Register Agent:\n{agentInfo.AgentId}\n{agentInfo.AgentAddress}");
         return Ok();
     }
     [HttpPut("enable/{agentId}")]
     public IActionResult EnableAgentById([FromRoute] int agentId)
     {
+        _logger.LogInformation($"Enable Agent{agentId}");
         return Ok();
     }
     [HttpPut("disable/{agentId}")]
     public IActionResult DisableAgentById([FromRoute] int agentId)
     {
+        _logger.LogInformation($"Disable Agent{agentId}");
         return Ok();
     }
 }

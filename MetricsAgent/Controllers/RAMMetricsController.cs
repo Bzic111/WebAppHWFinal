@@ -23,6 +23,7 @@ public class RAMMetricsController : ControllerBase
     [HttpPost("create")]
     public IActionResult Create([FromBody] RamMetricCreateRequest request)
     {
+        _logger.LogInformation($"Request: \nTime = {request.Time}\nValue = {request.Value}");
         _repository.Create(new RamMetric
         {
             Time = request.Time,
@@ -35,6 +36,7 @@ public class RAMMetricsController : ControllerBase
     public IActionResult GetAll()
     {
         var metrics = _repository.GetAll();
+        _logger.LogInformation($"GetAll() returns {(metrics is not null ? "list" : "null")}");
         var response = new AllRamMetricsResponse()
         {
             Metrics = new List<RamMetricDto>()
@@ -55,6 +57,7 @@ public class RAMMetricsController : ControllerBase
     public IActionResult GetFilteredMetrics([FromQuery] DateTime fromTime, [FromQuery] DateTime toTime)
     {
         var metrics = _repository.GetByTimePeriod(fromTime, toTime);
+        _logger.LogInformation($"GetFilteredData()\nFrom Date = {fromTime}\nTo Dota = {toTime}\n returns = {(metrics is not null ? "list" : "null")}");
         var response = new AllRamMetricsResponse() { Metrics = new List<RamMetricDto>() };
         foreach (var metric in metrics)
         {

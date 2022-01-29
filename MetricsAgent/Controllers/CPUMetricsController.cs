@@ -24,6 +24,7 @@ public class CPUMetricsController : ControllerBase
     [HttpPost("create")]
     public IActionResult Create([FromBody] CpuMetricCreateRequest request)
     {
+        _logger.LogInformation($"Request: \nTime = {request.Time}\nValue = {request.Value}");
         _repository.Create(new CpuMetric
         {
             Time = request.Time,
@@ -36,6 +37,7 @@ public class CPUMetricsController : ControllerBase
     public IActionResult GetAll()
     {
         var metrics = _repository.GetAll();
+        _logger.LogInformation($"GetAll() returns {(metrics is not null ? "list" : "null")}");
         var response = new AllCpuMetricsResponse()
         {
             Metrics = new List<CpuMetricDto>()
@@ -53,8 +55,9 @@ public class CPUMetricsController : ControllerBase
     }
     [HttpGet("filter")]
     public IActionResult GetFilteredMetrics([FromQuery] DateTime fromTime, [FromQuery] DateTime toTime)
-    {        
+    {
         var metrics = _repository.GetByTimePeriod(fromTime, toTime);
+        _logger.LogInformation($"GetFilteredData()\nFrom Date = {fromTime}\nTo Dota = {toTime}\n returns = {(metrics is not null ? "list" : "null")}");
         var response = new AllCpuMetricsResponse()
         {
             Metrics = new List<CpuMetricDto>()
