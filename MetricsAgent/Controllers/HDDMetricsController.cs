@@ -20,6 +20,7 @@ public class HDDMetricsController : ControllerBase
         _logger = logger;
         _repository = repo;
     }
+    
     [HttpPost("create")]
     public IActionResult Create([FromBody] HddMetricCreateRequest request)
     {
@@ -50,8 +51,9 @@ public class HDDMetricsController : ControllerBase
         }
         return Ok(response);
     }
+    
     [HttpGet("left/filter}")]
-    public IActionResult GetHDDMetrics([FromQuery] DateTime fromTime, [FromQuery] DateTime toTime)
+    public IActionResult GetFilteredMetrics([FromQuery] DateTime fromTime, [FromQuery] DateTime toTime)
     {
         var metrics = _repository.GetByTimePeriod(fromTime, toTime);
         var response = new AllHddMetricsResponse() { Metrics = new List<HddMetricDto>() };

@@ -52,7 +52,7 @@ public class CPUMetricsController : ControllerBase
         return Ok(response);
     }
     [HttpGet("filter")]
-    public IActionResult GetCPUMetrics([FromQuery] DateTime fromTime, [FromQuery] DateTime toTime)
+    public IActionResult GetFilteredMetrics([FromQuery] DateTime fromTime, [FromQuery] DateTime toTime)
     {        
         var metrics = _repository.GetByTimePeriod(fromTime, toTime);
         var response = new AllCpuMetricsResponse()

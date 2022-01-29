@@ -15,7 +15,7 @@ public class DotNetMetricsControllerUnitTest
     }
 
     [Fact]
-    public void GetDotNetMetricsFromAgent_ReturnsOk()
+    public void GetFilteredMetricsFromAgent_ReturnsOk()
     {
         var agentId = 1;
         var fromTime = DateTime.Now - TimeSpan.FromDays(1);
@@ -26,7 +26,7 @@ public class DotNetMetricsControllerUnitTest
     }
 
     [Fact]
-    public void GetDotNetMetricsFromCluster_ReturnsOk()
+    public void GetFilteredMetricsFromCluster_ReturnsOk()
     {
         var fromTime = DateTime.Now - TimeSpan.FromDays(1);
         var toTime = DateTime.Now;

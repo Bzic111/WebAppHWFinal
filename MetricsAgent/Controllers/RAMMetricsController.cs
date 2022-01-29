@@ -19,6 +19,7 @@ public class RAMMetricsController : ControllerBase
         _logger = logger;
         _repository = repo;
     }
+    
     [HttpPost("create")]
     public IActionResult Create([FromBody] RamMetricCreateRequest request)
     {
@@ -51,7 +52,7 @@ public class RAMMetricsController : ControllerBase
     }
 
     [HttpGet("available/filter")]
-    public IActionResult GetRAMMetrics([FromQuery] DateTime fromTime, [FromQuery] DateTime toTime)
+    public IActionResult GetFilteredMetrics([FromQuery] DateTime fromTime, [FromQuery] DateTime toTime)
     {
         var metrics = _repository.GetByTimePeriod(fromTime, toTime);
         var response = new AllRamMetricsResponse() { Metrics = new List<RamMetricDto>() };

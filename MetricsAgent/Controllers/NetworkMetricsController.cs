@@ -51,8 +51,9 @@ public class NetworkMetricsController : ControllerBase
         }
         return Ok(response);
     }
+    
     [HttpGet("from/filter")]
-    public IActionResult GetNetworkMetrics([FromQuery] DateTime fromTime, [FromQuery] DateTime toTime)
+    public IActionResult GetFilteredMetrics([FromQuery] DateTime fromTime, [FromQuery] DateTime toTime)
     {
         var metrics = _repository.GetByTimePeriod(fromTime, toTime);
         var response = new AllNetworkMetricsResponse() { Metrics = new List<NetworkMetricDto>() };
