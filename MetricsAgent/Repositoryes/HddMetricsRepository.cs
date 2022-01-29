@@ -1,6 +1,7 @@
 ﻿using MetricsAgent.Interfaces;
 using MetricsAgent.Models;
 using System.Data.SQLite;
+using System.Globalization;
 using System;
 using System.Collections.Generic;
 
@@ -136,9 +137,9 @@ public class HddMetricsRepository : IHddMetricsRepository
             connection.Open();
             using (var cmd = new SQLiteCommand(connection))
             {
-                cmd.CommandText = "SELECT * FROM hddmetrics WHERE Time > @from AND Time < @to";
-                cmd.Parameters.AddWithValue("@from", from);
-                cmd.Parameters.AddWithValue("@to", to);
+                string fromStr = from.ToString("s", CultureInfo.GetCultureInfo("ru-RU"));
+                string toStr = to.ToString("s", CultureInfo.GetCultureInfo("ru-RU"));
+                cmd.CommandText = $"SELECT * FROM hddmetrics WHERE Time >= \'{fromStr}\' AND Time <= \'{toStr}\'";
                 cmd.Prepare();
                 var returnList = new List<HddMetric>();
                 using (SQLiteDataReader reader = cmd.ExecuteReader())

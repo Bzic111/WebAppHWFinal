@@ -1,7 +1,7 @@
 ﻿using MetricsAgent.Interfaces;
 using MetricsAgent.Models;
 using System.Data.SQLite;
-using System;
+using System.Globalization;
 using System.Collections.Generic;
 
 
@@ -17,7 +17,7 @@ public class CpuMetricsRepository : ICpuMetricsRepository
         using var cmd = new SQLiteCommand(connection);
         cmd.CommandText = "INSERT INTO cpumetrics(value, time) VALUES(@value,@time)";
         cmd.Parameters.AddWithValue("@value", item.Value);
-        cmd.Parameters.AddWithValue("@time", item.Time.Ticks);
+        cmd.Parameters.AddWithValue("@time", item.Time.ToString("s", CultureInfo.GetCultureInfo("ru-RU")));
         cmd.Prepare();
         cmd.ExecuteNonQuery();
     }
@@ -48,8 +48,9 @@ public class CpuMetricsRepository : ICpuMetricsRepository
                 {
                     Id = reader.GetInt32(0),
                     Value = reader.GetInt32(1),
-                    Time = reader.GetDateTime(2)//DateTime.Now - TimeSpan.FromSeconds(reader.GetInt32(2))
+                    Time = reader.GetDateTime(2)
                 });
+                Console.WriteLine(returnList[^1].Time);
             }
         }
         return returnList;
@@ -97,9 +98,9 @@ public class CpuMetricsRepository : ICpuMetricsRepository
             connection.Open();
             using (var cmd = new SQLiteCommand(connection))
             {
-                cmd.CommandText = "SELECT * FROM cpumetrics WHERE Time > @from AND Time < @to";
-                cmd.Parameters.AddWithValue("@from", from);
-                cmd.Parameters.AddWithValue("@to", to);
+                string fromStr = from.ToString("s", CultureInfo.GetCultureInfo("ru-RU"));
+                string toStr = to.ToString("s", CultureInfo.GetCultureInfo("ru-RU"));
+                cmd.CommandText = $"SELECT * FROM cpumetrics WHERE Time >= \'{fromStr}\' AND Time <= \'{toStr}\'";                
                 cmd.Prepare();
                 var returnList = new List<CpuMetric>();
                 using (SQLiteDataReader reader = cmd.ExecuteReader())
@@ -110,7 +111,7 @@ public class CpuMetricsRepository : ICpuMetricsRepository
                         {
                             Id = reader.GetInt32(0),
                             Value = reader.GetInt32(1),
-                            Time = DateTime.Now - TimeSpan.FromSeconds(reader.GetInt32(2))
+                            Time = reader.GetDateTime(2)
                         });
                     }
                 }

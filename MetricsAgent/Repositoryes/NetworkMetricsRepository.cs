@@ -1,5 +1,6 @@
 ﻿using MetricsAgent.Interfaces;
 using MetricsAgent.Models;
+using System.Globalization;
 using System.Data.SQLite;
 using System;
 using System.Collections.Generic;
@@ -135,9 +136,9 @@ public class NetworkMetricsRepository : INetworkRepository
             connection.Open();
             using (var cmd = new SQLiteCommand(connection))
             {
-                cmd.CommandText = "SELECT * FROM networkmetrics WHERE Time > @from AND Time < @to";
-                cmd.Parameters.AddWithValue("@from", from);
-                cmd.Parameters.AddWithValue("@to", to);
+                string fromStr = from.ToString("s", CultureInfo.GetCultureInfo("ru-RU"));
+                string toStr = to.ToString("s", CultureInfo.GetCultureInfo("ru-RU"));
+                cmd.CommandText = $"SELECT * FROM networkmetrics WHERE Time >= \'{fromStr}\' AND Time <= \'{toStr}\'";
                 cmd.Prepare();
                 var returnList = new List<NetworkMetric>();
                 using (SQLiteDataReader reader = cmd.ExecuteReader())

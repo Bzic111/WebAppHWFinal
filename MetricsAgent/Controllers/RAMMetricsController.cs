@@ -50,9 +50,20 @@ public class RAMMetricsController : ControllerBase
         return Ok(response);
     }
 
-    [HttpGet("available/from/{fromTime}/to/{toTime}")]
-    public IActionResult GetRAMMetrics([FromRoute] DateTime fromTime, [FromRoute] DateTime toTime)
+    [HttpGet("available/filter")]
+    public IActionResult GetRAMMetrics([FromQuery] DateTime fromTime, [FromQuery] DateTime toTime)
     {
-        return Ok();
+        var metrics = _repository.GetByTimePeriod(fromTime, toTime);
+        var response = new AllRamMetricsResponse() { Metrics = new List<RamMetricDto>() };
+        foreach (var metric in metrics)
+        {
+            response.Metrics.Add(new RamMetricDto
+            {
+                Time = metric.Time,
+                Value = metric.Value,
+                Id = metric.Id
+            });
+        }
+        return Ok(response);
     }
 }

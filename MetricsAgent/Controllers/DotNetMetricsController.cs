@@ -52,9 +52,21 @@ public class DotNetMetricsController : ControllerBase
         return Ok(response);
     }
 
-    [HttpGet("errors-count/from/{fromTime}/to/{toTime}")]
-    public IActionResult GetDotNetMetrics([FromRoute] DateTime fromTime, [FromRoute] DateTime toTime)
+    [HttpGet("errors-count/filter}")]
+    public IActionResult GetDotNetMetrics([FromQuery] DateTime fromTime, [FromQuery] DateTime toTime)
     {
-        return Ok();
+        var metrics = _repository.GetByTimePeriod(fromTime, toTime);
+        var response = new AllDotNetMetricsResponse() { Metrics = new List<DotNetMetricDto>() };
+        foreach (var metric in metrics)
+        {
+            response.Metrics.Add(new DotNetMetricDto
+            {
+                Time = metric.Time,
+                Value = metric.Value,
+                Id = metric.Id
+            });
+        }
+        return Ok(response);
+
     }
 }

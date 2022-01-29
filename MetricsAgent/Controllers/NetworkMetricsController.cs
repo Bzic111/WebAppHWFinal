@@ -51,9 +51,20 @@ public class NetworkMetricsController : ControllerBase
         }
         return Ok(response);
     }
-    [HttpGet("from/{fromTime}/to/{toTime}")]
-    public IActionResult GetNetworkMetrics([FromRoute] DateTime fromTime, [FromRoute] DateTime toTime)
+    [HttpGet("from/filter")]
+    public IActionResult GetNetworkMetrics([FromQuery] DateTime fromTime, [FromQuery] DateTime toTime)
     {
-        return Ok();
+        var metrics = _repository.GetByTimePeriod(fromTime, toTime);
+        var response = new AllNetworkMetricsResponse() { Metrics = new List<NetworkMetricDto>() };
+        foreach (var metric in metrics)
+        {
+            response.Metrics.Add(new NetworkMetricDto
+            {
+                Time = metric.Time,
+                Value = metric.Value,
+                Id = metric.Id
+            });
+        }
+        return Ok(response);
     }
 }

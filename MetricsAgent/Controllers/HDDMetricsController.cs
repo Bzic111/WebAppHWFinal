@@ -50,9 +50,20 @@ public class HDDMetricsController : ControllerBase
         }
         return Ok(response);
     }
-    [HttpGet("left/from/{fromTime}/to/{toTime}")]
-    public IActionResult GetHDDMetrics([FromRoute] DateTime fromTime, [FromRoute] DateTime toTime)
+    [HttpGet("left/filter}")]
+    public IActionResult GetHDDMetrics([FromQuery] DateTime fromTime, [FromQuery] DateTime toTime)
     {
-        return Ok();
+        var metrics = _repository.GetByTimePeriod(fromTime, toTime);
+        var response = new AllHddMetricsResponse() { Metrics = new List<HddMetricDto>() };
+        foreach (var metric in metrics)
+        {
+            response.Metrics.Add(new HddMetricDto
+            {
+                Time = metric.Time,
+                Value = metric.Value,
+                Id = metric.Id
+            });
+        }
+        return Ok(response);
     }
 }

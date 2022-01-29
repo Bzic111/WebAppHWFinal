@@ -1,7 +1,7 @@
 ﻿using MetricsAgent.Interfaces;
 using MetricsAgent.Models;
 using System.Data.SQLite;
-using System;
+using System.Globalization;
 using System.Collections.Generic;
 
 namespace MetricsAgent.Repositoryes;
@@ -136,9 +136,9 @@ public class RamMetricsRepository : IRamMetricsRepository
             connection.Open();
             using (var cmd = new SQLiteCommand(connection))
             {
-                cmd.CommandText = "SELECT * FROM rammetrics WHERE Time > @from AND Time < @to";
-                cmd.Parameters.AddWithValue("@from", from);
-                cmd.Parameters.AddWithValue("@to", to);
+                string fromStr = from.ToString("s", CultureInfo.GetCultureInfo("ru-RU"));
+                string toStr = to.ToString("s", CultureInfo.GetCultureInfo("ru-RU"));
+                cmd.CommandText = $"SELECT * FROM rammetrics WHERE Time >= \'{fromStr}\' AND Time <= \'{toStr}\'";
                 cmd.Prepare();
                 var returnList = new List<RamMetric>();
                 using (SQLiteDataReader reader = cmd.ExecuteReader())

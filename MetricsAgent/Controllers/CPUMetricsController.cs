@@ -51,11 +51,9 @@ public class CPUMetricsController : ControllerBase
         }
         return Ok(response);
     }
-    [HttpGet("from/{fromTime}/to/{toTime}")]
-    public IActionResult GetCPUMetrics([FromRoute] DateTime fromTime, [FromRoute] DateTime toTime)
-    {
-        _logger.LogInformation($"From = {fromTime}\nTo = {toTime}");
-        Console.WriteLine($"From = {fromTime}\nTo = {toTime}");
+    [HttpGet("filter")]
+    public IActionResult GetCPUMetrics([FromQuery] DateTime fromTime, [FromQuery] DateTime toTime)
+    {        
         var metrics = _repository.GetByTimePeriod(fromTime, toTime);
         var response = new AllCpuMetricsResponse()
         {
