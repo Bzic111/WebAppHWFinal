@@ -1,7 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System.Data.SQLite;
-using MetricsAgent.Other;
+﻿using MetricsAgent.Other;
+using CpuMetric = MetricsAgent.Other.CpuMetric;
 
 namespace MetricsAgent.Controllers;
 

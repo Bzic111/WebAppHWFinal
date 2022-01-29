@@ -1,11 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using MetricsAgent.Interfaces;
-using MetricsAgent.Models;
-using MetricsAgent.Requests;
-using MetricsAgent.Responses;
-using MetricsAgent.DTO;
-using Microsoft.AspNetCore.Http;
-using MetricsAgent.Repositoryes;
+﻿using AutoMapper;
 
 namespace MetricsAgent.Controllers;
 
@@ -15,10 +8,12 @@ public class CPUMetricsController : ControllerBase
 {
     private ICpuMetricsRepository _repository;
     private readonly ILogger<CPUMetricsController> _logger;
-    public CPUMetricsController(ICpuMetricsRepository repo, ILogger<CPUMetricsController> logger)
+    private readonly IMapper _mapper;
+    public CPUMetricsController(ICpuMetricsRepository repo, ILogger<CPUMetricsController> logger,IMapper mapper)
     {
         _logger = logger;
         _repository = repo;
+        _mapper = mapper;
     }
 
     [HttpPost("create")]
@@ -36,23 +31,14 @@ public class CPUMetricsController : ControllerBase
     [HttpGet("all")]
     public IActionResult GetAll()
     {
-        var metrics = _repository.GetAll();
+        IList<CpuMetric> metrics = _repository.GetAll();
         _logger.LogInformation($"GetAll() returns {(metrics is not null ? "list" : "null")}");
-        var response = new AllCpuMetricsResponse()
-        {
-            Metrics = new List<CpuMetricDto>()
-        };
+        var response = new AllCpuMetricsResponse() { Metrics = new List<CpuMetricDto>() };
         foreach (var metric in metrics!)
-        {
-            response.Metrics.Add(new CpuMetricDto
-            {
-                Time = metric.Time,
-                Value = metric.Value,
-                Id = metric.Id
-            });
-        }
+            response.Metrics.Add(_mapper.Map<CpuMetricDto>(metric));
         return Ok(response);
     }
+
     [HttpGet("filter")]
     public IActionResult GetFilteredMetrics([FromQuery] DateTime fromTime, [FromQuery] DateTime toTime)
     {

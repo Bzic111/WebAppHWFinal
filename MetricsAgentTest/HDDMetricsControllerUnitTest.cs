@@ -1,12 +1,11 @@
 ﻿using Microsoft.Extensions.Logging;
 using MetricsAgent.Controllers;
-using Microsoft.AspNetCore.Mvc;
-using MetricsAgent.Interfaces;
-using MetricsAgent.Models;
 using Moq;
 using System;
 using System.Collections.Generic;
 using Xunit;
+using MetricsAgent.DAL.Models;
+using MetricsAgent.DAL.Interfaces;
 
 namespace MetricsAgentTest;
 

@@ -67,3 +67,31 @@
 2022-01-29 10:45:25.3767 Warn Skipping unrecognized property 'tolower=true` for ${level} (NLog.LayoutRenderers.LevelLayoutRenderer)
 2022-01-29 10:45:25.3882 Info Adding target ConsoleTarget(Name=lifetimeConsole)
 2022-01-29 10:45:25.4444 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, ConfigItems=65, FilePath=/app/bin/Debug/net6.0/NLog.config
+2022-01-29 15:04:49.9605 Info Message Template Auto Format enabled
+2022-01-29 15:04:49.9813 Info Loading assembly: NLog.Web.AspNetCore
+2022-01-29 15:04:50.0553 Info Adding target FileTarget(Name=allfile)
+2022-01-29 15:04:50.0553 Info Adding target FileTarget(Name=ownFile-web)
+2022-01-29 15:04:50.0654 Warn Skipping unrecognized property 'tolower=true` for ${level} (NLog.LayoutRenderers.LevelLayoutRenderer)
+2022-01-29 15:04:50.0654 Info Adding target ConsoleTarget(Name=lifetimeConsole)
+2022-01-29 15:04:50.1235 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, ConfigItems=65, FilePath=/app/bin/Debug/net6.0/NLog.config
+2022-01-29 15:16:04.8209 Info Message Template Auto Format enabled
+2022-01-29 15:16:04.8425 Info Loading assembly: NLog.Web.AspNetCore
+2022-01-29 15:16:04.9322 Info Adding target FileTarget(Name=allfile)
+2022-01-29 15:16:04.9368 Info Adding target FileTarget(Name=ownFile-web)
+2022-01-29 15:16:04.9368 Warn Skipping unrecognized property 'tolower=true` for ${level} (NLog.LayoutRenderers.LevelLayoutRenderer)
+2022-01-29 15:16:04.9455 Info Adding target ConsoleTarget(Name=lifetimeConsole)
+2022-01-29 15:16:04.9967 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, ConfigItems=65, FilePath=/app/bin/Debug/net6.0/NLog.config
+2022-01-29 15:28:31.6971 Info Message Template Auto Format enabled
+2022-01-29 15:28:31.7316 Info Loading assembly: NLog.Web.AspNetCore
+2022-01-29 15:28:31.8088 Info Adding target FileTarget(Name=allfile)
+2022-01-29 15:28:31.8088 Info Adding target FileTarget(Name=ownFile-web)
+2022-01-29 15:28:31.8177 Warn Skipping unrecognized property 'tolower=true` for ${level} (NLog.LayoutRenderers.LevelLayoutRenderer)
+2022-01-29 15:28:31.8177 Info Adding target ConsoleTarget(Name=lifetimeConsole)
+2022-01-29 15:28:31.8777 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, ConfigItems=65, FilePath=/app/bin/Debug/net6.0/NLog.config
+2022-01-29 15:32:14.4092 Info Message Template Auto Format enabled
+2022-01-29 15:32:14.4291 Info Loading assembly: NLog.Web.AspNetCore
+2022-01-29 15:32:14.5026 Info Adding target FileTarget(Name=allfile)
+2022-01-29 15:32:14.5072 Info Adding target FileTarget(Name=ownFile-web)
+2022-01-29 15:32:14.5072 Warn Skipping unrecognized property 'tolower=true` for ${level} (NLog.LayoutRenderers.LevelLayoutRenderer)
+2022-01-29 15:32:14.5161 Info Adding target ConsoleTarget(Name=lifetimeConsole)
+2022-01-29 15:32:14.5683 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, ConfigItems=65, FilePath=/app/bin/Debug/net6.0/NLog.config

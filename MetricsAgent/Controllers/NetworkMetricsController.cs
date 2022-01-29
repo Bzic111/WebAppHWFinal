@@ -1,13 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using MetricsAgent.Interfaces;
-using MetricsAgent.Models;
-using MetricsAgent.Requests;
-using MetricsAgent.Responses;
-using MetricsAgent.DTO;
-using Microsoft.AspNetCore.Http;
-using MetricsAgent.Repositoryes;
-
-namespace MetricsAgent.Controllers;
+﻿namespace MetricsAgent.Controllers;
 
 [Route("api/metrics/network")]
 [ApiController]
