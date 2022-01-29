@@ -6,8 +6,10 @@ public class NetworkMetricsController : ControllerBase
 {
     private readonly ILogger<NetworkMetricsController> _logger;
     private INetworkRepository _repository;
-    public NetworkMetricsController(INetworkRepository repo, ILogger<NetworkMetricsController> logger)
+    private readonly IMapper _mapper;
+    public NetworkMetricsController(INetworkRepository repo, ILogger<NetworkMetricsController> logger, IMapper mapper)
     {
+        _mapper = mapper;
         _logger = logger;
         _repository = repo;
     }
@@ -29,22 +31,12 @@ public class NetworkMetricsController : ControllerBase
     {
         var metrics = _repository.GetAll();
         _logger.LogInformation($"GetAll() returns {(metrics is not null ? "list" : "null")}");
-        var response = new AllNetworkMetricsResponse()
-        {
-            Metrics = new List<NetworkMetricDto>()
-        };
+        var response = new AllNetworkMetricsResponse() { Metrics = new List<NetworkMetricDto>() };
         foreach (var metric in metrics!)
-        {
-            response.Metrics.Add(new NetworkMetricDto
-            {
-                Time = metric.Time,
-                Value = metric.Value,
-                Id = metric.Id
-            });
-        }
+            response.Metrics.Add(_mapper.Map<NetworkMetricDto>(metric));
         return Ok(response);
     }
-    
+
     [HttpGet("from/filter")]
     public IActionResult GetFilteredMetrics([FromQuery] DateTime fromTime, [FromQuery] DateTime toTime)
     {
@@ -52,14 +44,7 @@ public class NetworkMetricsController : ControllerBase
         _logger.LogInformation($"GetFilteredData()\nFrom Date = {fromTime}\nTo Dota = {toTime}\n returns = {(metrics is not null ? "list" : "null")}");
         var response = new AllNetworkMetricsResponse() { Metrics = new List<NetworkMetricDto>() };
         foreach (var metric in metrics!)
-        {
-            response.Metrics.Add(new NetworkMetricDto
-            {
-                Time = metric.Time,
-                Value = metric.Value,
-                Id = metric.Id
-            });
-        }
+            response.Metrics.Add(_mapper.Map<NetworkMetricDto>(metric));
         return Ok(response);
     }
 }

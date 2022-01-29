@@ -14,7 +14,7 @@ public class RAMMetricsControllerUnitTest
     private RAMMetricsController controller;
     private Mock<IRamMetricsRepository> mock;
     private Mock<ILogger<RAMMetricsController>> logger;
-    
+
     public RAMMetricsControllerUnitTest()
     {
         mock = new Mock<IRamMetricsRepository>();

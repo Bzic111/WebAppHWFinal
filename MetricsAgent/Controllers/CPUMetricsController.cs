@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-
-namespace MetricsAgent.Controllers;
+﻿namespace MetricsAgent.Controllers;
 
 [Route("api/metrics/cpu")]
 [ApiController]
@@ -9,7 +7,7 @@ public class CPUMetricsController : ControllerBase
     private ICpuMetricsRepository _repository;
     private readonly ILogger<CPUMetricsController> _logger;
     private readonly IMapper _mapper;
-    public CPUMetricsController(ICpuMetricsRepository repo, ILogger<CPUMetricsController> logger,IMapper mapper)
+    public CPUMetricsController(ICpuMetricsRepository repo, ILogger<CPUMetricsController> logger, IMapper mapper)
     {
         _logger = logger;
         _repository = repo;
@@ -28,7 +26,7 @@ public class CPUMetricsController : ControllerBase
         return Ok();
     }
 
-    [HttpGet("all")]
+    [HttpGet("usage/all")]
     public IActionResult GetAll()
     {
         IList<CpuMetric> metrics = _repository.GetAll();
@@ -39,24 +37,14 @@ public class CPUMetricsController : ControllerBase
         return Ok(response);
     }
 
-    [HttpGet("filter")]
+    [HttpGet("usage/filter")]
     public IActionResult GetFilteredMetrics([FromQuery] DateTime fromTime, [FromQuery] DateTime toTime)
     {
-        var metrics = _repository.GetByTimePeriod(fromTime, toTime);
+        IList<CpuMetric> metrics = _repository.GetByTimePeriod(fromTime, toTime);
         _logger.LogInformation($"GetFilteredData()\nFrom Date = {fromTime}\nTo Dota = {toTime}\n returns = {(metrics is not null ? "list" : "null")}");
-        var response = new AllCpuMetricsResponse()
-        {
-            Metrics = new List<CpuMetricDto>()
-        };
+        var response = new AllCpuMetricsResponse() { Metrics = new List<CpuMetricDto>() };
         foreach (var metric in metrics!)
-        {
-            response.Metrics.Add(new CpuMetricDto
-            {
-                Time = metric.Time,
-                Value = metric.Value,
-                Id = metric.Id
-            });
-        }
+            response.Metrics.Add(_mapper.Map<CpuMetricDto>(metric));
         return Ok(response);
     }
 }

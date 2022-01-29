@@ -6,12 +6,14 @@ public class HDDMetricsController : ControllerBase
 {
     private readonly ILogger<HDDMetricsController> _logger;
     private IHddMetricsRepository _repository;
-    public HDDMetricsController(IHddMetricsRepository repo, ILogger<HDDMetricsController> logger)
+    private readonly IMapper _mapper;
+    public HDDMetricsController(IHddMetricsRepository repo, ILogger<HDDMetricsController> logger, IMapper mapper)
     {
+        _mapper = mapper;
         _logger = logger;
         _repository = repo;
     }
-    
+
     [HttpPost("create")]
     public IActionResult Create([FromBody] HddMetricCreateRequest request)
     {
@@ -29,22 +31,12 @@ public class HDDMetricsController : ControllerBase
     {
         var metrics = _repository.GetAll();
         _logger.LogInformation($"GetAll() returns {(metrics is not null ? "list" : "null")}");
-        var response = new AllHddMetricsResponse()
-        {
-            Metrics = new List<HddMetricDto>()
-        };
+        var response = new AllHddMetricsResponse() { Metrics = new List<HddMetricDto>() };
         foreach (var metric in metrics!)
-        {
-            response.Metrics.Add(new HddMetricDto
-            {
-                Time = metric.Time,
-                Value = metric.Value,
-                Id = metric.Id
-            });
-        }
+            response.Metrics.Add(_mapper.Map<HddMetricDto>(metric));
         return Ok(response);
     }
-    
+
     [HttpGet("left/filter")]
     public IActionResult GetFilteredMetrics([FromQuery] DateTime fromTime, [FromQuery] DateTime toTime)
     {
@@ -52,14 +44,7 @@ public class HDDMetricsController : ControllerBase
         _logger.LogInformation($"GetFilteredData()\nFrom Date = {fromTime}\nTo Dota = {toTime}\n returns = {(metrics is not null ? "list" : "null")}");
         var response = new AllHddMetricsResponse() { Metrics = new List<HddMetricDto>() };
         foreach (var metric in metrics!)
-        {
-            response.Metrics.Add(new HddMetricDto
-            {
-                Time = metric.Time,
-                Value = metric.Value,
-                Id = metric.Id
-            });
-        }
+            response.Metrics.Add(_mapper.Map<HddMetricDto>(metric));
         return Ok(response);
     }
 }

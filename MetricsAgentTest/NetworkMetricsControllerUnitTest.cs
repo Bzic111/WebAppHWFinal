@@ -14,7 +14,7 @@ public class NetworkMetricsControllerUnitTest
     private NetworkMetricsController controller;
     private Mock<INetworkRepository> mock;
     private Mock<ILogger<NetworkMetricsController>> mockLogger;
-    
+
     public NetworkMetricsControllerUnitTest()
     {
         mockLogger = new Mock<ILogger<NetworkMetricsController>>();

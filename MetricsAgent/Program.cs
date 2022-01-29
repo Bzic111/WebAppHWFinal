@@ -88,7 +88,7 @@ void CreateTestTables()
                 cmd.ExecuteNonQuery();
                 for (int i = 0; i < 10; i++)
                 {
-                    string temp = $"INSERT INTO {item}(value, time) VALUES({(i + 10) * 2},\'{DateTime.Now.ToString("s",CultureInfo.GetCultureInfo("ru-RU"))}\')";
+                    string temp = $"INSERT INTO {item}(value, time) VALUES({(i + 10) * 2},\'{DateTime.Now.ToString("s", CultureInfo.GetCultureInfo("ru-RU"))}\')";
                     cmd.CommandText = temp;
                     cmd.ExecuteNonQuery();
                 }

@@ -43,7 +43,7 @@ public class DotNetMetricsRepository : IDotNetRepository
 
             string fromStr = from.ToString("s", Culture);// CultureInfo.GetCultureInfo("ru-RU"));
             string toStr = to.ToString("s", Culture);//CultureInfo.GetCultureInfo("ru-RU"));
-            return connection.Query<DotNetMetric>($"SELECT Id, Time, Value FROM dotnetmetrics WHERE Time >= \'{fromStr}\' AND Time <= \'{toStr}\'").ToList();            
+            return connection.Query<DotNetMetric>($"SELECT Id, Time, Value FROM dotnetmetrics WHERE Time >= \'{fromStr}\' AND Time <= \'{toStr}\'").ToList();
         }
     }
 

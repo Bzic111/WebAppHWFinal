@@ -14,7 +14,7 @@ public class HDDMetricsControllerUnitTest
     private HDDMetricsController controller;
     private Mock<IHddMetricsRepository> mock;
     private Mock<ILogger<HDDMetricsController>> logger;
-    
+
     public HDDMetricsControllerUnitTest()
     {
         logger = new Mock<ILogger<HDDMetricsController>>();

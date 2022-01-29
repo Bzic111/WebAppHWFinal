@@ -4,7 +4,7 @@ public class RamMetricsRepository : IRamMetricsRepository
 {
     private const string ConnectionString = "Data Source=metrics.db;Version=3;Pooling=true;Max Pool Size=100;";
     private CultureInfo Culture = CultureInfo.GetCultureInfo("ru-RU");
-    
+
     #region Create
 
     public void Create(RamMetric item)

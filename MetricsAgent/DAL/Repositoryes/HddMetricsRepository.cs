@@ -25,7 +25,7 @@ public class HddMetricsRepository : IHddMetricsRepository
             return connection.QuerySingle<HddMetric>($"SELECT Id, Time, Value FROM hddmetrics WHERE id = {id}");
         }
     }
-    
+
     public IList<HddMetric> GetAll()
     {
         using (var connection = new SQLiteConnection(ConnectionString))
@@ -40,7 +40,7 @@ public class HddMetricsRepository : IHddMetricsRepository
         {
             string fromStr = from.ToString("s", Culture);
             string toStr = to.ToString("s", Culture);
-            return connection.Query<HddMetric>($"SELECT Id, Time, Value FROM hddmetrics WHERE Time >= \'{fromStr}\' AND Time <= \'{toStr}\'").ToList();            
+            return connection.Query<HddMetric>($"SELECT Id, Time, Value FROM hddmetrics WHERE Time >= \'{fromStr}\' AND Time <= \'{toStr}\'").ToList();
         }
     }
 

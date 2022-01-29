@@ -45,19 +45,19 @@ public class NetworkMetricsRepository : INetworkRepository
         }
     }
     #endregion
-    
+
     #region Update
 
     public void Update(NetworkMetric item)
     {
         using (var connection = new SQLiteConnection(ConnectionString))
         {
-            connection.Execute($"UPDATE networkmetrics SET value = {item.Value}, time = \'{item.Time}\' WHERE id = {item.Id}");            
+            connection.Execute($"UPDATE networkmetrics SET value = {item.Value}, time = \'{item.Time}\' WHERE id = {item.Id}");
         }
     }
 
     #endregion
-    
+
     #region Delete
 
     public void Delete(int id)
