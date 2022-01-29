@@ -42,7 +42,7 @@ public class HDDMetricsController : ControllerBase
         {
             Metrics = new List<HddMetricDto>()
         };
-        foreach (var metric in metrics)
+        foreach (var metric in metrics!)
         {
             response.Metrics.Add(new HddMetricDto
             {
@@ -60,7 +60,7 @@ public class HDDMetricsController : ControllerBase
         var metrics = _repository.GetByTimePeriod(fromTime, toTime);
         _logger.LogInformation($"GetFilteredData()\nFrom Date = {fromTime}\nTo Dota = {toTime}\n returns = {(metrics is not null ? "list" : "null")}");
         var response = new AllHddMetricsResponse() { Metrics = new List<HddMetricDto>() };
-        foreach (var metric in metrics)
+        foreach (var metric in metrics!)
         {
             response.Metrics.Add(new HddMetricDto
             {

@@ -1,16 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using Xunit;
-using MetricsManager.Controllers;
-
-namespace MetricsManagerTest;
+﻿namespace MetricsManagerTest;
 
 public class NetworkMetricsControllerUnitTest
 {
     private NetworkMetricsController controller;
+    private Mock<ILogger<NetworkMetricsController>> logger;
     public NetworkMetricsControllerUnitTest()
     {
-        controller = new();
+        logger = new();
+        controller = new(logger.Object);
     }
 
     [Fact]

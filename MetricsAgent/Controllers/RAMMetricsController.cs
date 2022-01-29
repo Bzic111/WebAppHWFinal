@@ -41,7 +41,7 @@ public class RAMMetricsController : ControllerBase
         {
             Metrics = new List<RamMetricDto>()
         };
-        foreach (var metric in metrics)
+        foreach (var metric in metrics!)
         {
             response.Metrics.Add(new RamMetricDto
             {
@@ -59,7 +59,7 @@ public class RAMMetricsController : ControllerBase
         var metrics = _repository.GetByTimePeriod(fromTime, toTime);
         _logger.LogInformation($"GetFilteredData()\nFrom Date = {fromTime}\nTo Dota = {toTime}\n returns = {(metrics is not null ? "list" : "null")}");
         var response = new AllRamMetricsResponse() { Metrics = new List<RamMetricDto>() };
-        foreach (var metric in metrics)
+        foreach (var metric in metrics!)
         {
             response.Metrics.Add(new RamMetricDto
             {

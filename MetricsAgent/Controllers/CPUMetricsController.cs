@@ -42,7 +42,7 @@ public class CPUMetricsController : ControllerBase
         {
             Metrics = new List<CpuMetricDto>()
         };
-        foreach (var metric in metrics)
+        foreach (var metric in metrics!)
         {
             response.Metrics.Add(new CpuMetricDto
             {
@@ -62,7 +62,7 @@ public class CPUMetricsController : ControllerBase
         {
             Metrics = new List<CpuMetricDto>()
         };
-        foreach (var metric in metrics)
+        foreach (var metric in metrics!)
         {
             response.Metrics.Add(new CpuMetricDto
             {

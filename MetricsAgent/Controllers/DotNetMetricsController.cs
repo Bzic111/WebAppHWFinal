@@ -42,7 +42,7 @@ public class DotNetMetricsController : ControllerBase
         {
             Metrics = new List<DotNetMetricDto>()
         };
-        foreach (var metric in metrics)
+        foreach (var metric in metrics!)
         {
             response.Metrics.Add(new DotNetMetricDto
             {
@@ -60,7 +60,7 @@ public class DotNetMetricsController : ControllerBase
         var metrics = _repository.GetByTimePeriod(fromTime, toTime);
         _logger.LogInformation($"GetFilteredData()\nFrom Date = {fromTime}\nTo Dota = {toTime}\n returns = {(metrics is not null ? "list" : "null")}");
         var response = new AllDotNetMetricsResponse() { Metrics = new List<DotNetMetricDto>() };
-        foreach (var metric in metrics)
+        foreach (var metric in metrics!)
         {
             response.Metrics.Add(new DotNetMetricDto
             {

@@ -6,9 +6,9 @@ using Moq;
 using System;
 using Xunit;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 using MetricsAgent.Responses;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
 //using MetricsAgent.DAL;
 

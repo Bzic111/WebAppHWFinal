@@ -42,7 +42,7 @@ public class NetworkMetricsController : ControllerBase
         {
             Metrics = new List<NetworkMetricDto>()
         };
-        foreach (var metric in metrics)
+        foreach (var metric in metrics!)
         {
             response.Metrics.Add(new NetworkMetricDto
             {
@@ -60,7 +60,7 @@ public class NetworkMetricsController : ControllerBase
         var metrics = _repository.GetByTimePeriod(fromTime, toTime);
         _logger.LogInformation($"GetFilteredData()\nFrom Date = {fromTime}\nTo Dota = {toTime}\n returns = {(metrics is not null ? "list" : "null")}");
         var response = new AllNetworkMetricsResponse() { Metrics = new List<NetworkMetricDto>() };
-        foreach (var metric in metrics)
+        foreach (var metric in metrics!)
         {
             response.Metrics.Add(new NetworkMetricDto
             {
