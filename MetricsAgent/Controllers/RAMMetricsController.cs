@@ -7,12 +7,15 @@ public class RAMMetricsController : ControllerBase
     private readonly ILogger<RAMMetricsController> _logger;
     private IRamMetricsRepository _repository;
     private readonly IMapper _mapper;
+    
     public RAMMetricsController(IRamMetricsRepository repo, ILogger<RAMMetricsController> logger, IMapper mapper)
     {
         _mapper = mapper;
         _logger = logger;
         _repository = repo;
     }
+
+    #region Create
 
     [HttpPost("create")]
     public IActionResult Create([FromBody] RamMetricCreateRequest request)
@@ -25,6 +28,10 @@ public class RAMMetricsController : ControllerBase
         });
         return Ok();
     }
+
+    #endregion
+
+    #region Read
 
     [HttpGet("all")]
     public IActionResult GetAll()
@@ -47,4 +54,34 @@ public class RAMMetricsController : ControllerBase
             response.Metrics.Add(_mapper.Map<RamMetricDto>(metric));
         return Ok(response);
     }
+
+    #endregion
+
+    #region Update
+
+    [HttpPut("update")]
+    public IActionResult UpdateMetric([FromQuery] int id, [FromBody] CpuMetricCreateRequest request)
+    {
+        _logger.LogInformation($"Update Request: \nTime = {request.Time}\nValue = {request.Value}");
+        _repository.Update(new RamMetric()
+        {
+            Id = id,
+            Value = request.Value,
+            Time = request.Time
+        });
+        return Ok("Updated");
+    }
+
+    #endregion
+
+    #region Delete
+
+    [HttpDelete("delete")]
+    public IActionResult DeleteMetric([FromQuery] int id)
+    {
+        _repository.Delete(id);
+        return Ok("Deleted");
+    }
+
+    #endregion
 }

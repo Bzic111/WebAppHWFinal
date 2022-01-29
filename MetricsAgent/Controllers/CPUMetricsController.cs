@@ -7,6 +7,7 @@ public class CPUMetricsController : ControllerBase
     private ICpuMetricsRepository _repository;
     private readonly ILogger<CPUMetricsController> _logger;
     private readonly IMapper _mapper;
+    
     public CPUMetricsController(ICpuMetricsRepository repo, ILogger<CPUMetricsController> logger, IMapper mapper)
     {
         _logger = logger;
@@ -14,17 +15,23 @@ public class CPUMetricsController : ControllerBase
         _mapper = mapper;
     }
 
+    #region Create
+
     [HttpPost("create")]
     public IActionResult Create([FromBody] CpuMetricCreateRequest request)
     {
-        _logger.LogInformation($"Request: \nTime = {request.Time}\nValue = {request.Value}");
+        _logger.LogInformation($"Create Request: \nTime = {request.Time}\nValue = {request.Value}");
         _repository.Create(new CpuMetric
         {
             Time = request.Time,
             Value = request.Value
         });
-        return Ok();
+        return Ok("Created");
     }
+
+    #endregion
+
+    #region Read
 
     [HttpGet("usage/all")]
     public IActionResult GetAll()
@@ -47,4 +54,34 @@ public class CPUMetricsController : ControllerBase
             response.Metrics.Add(_mapper.Map<CpuMetricDto>(metric));
         return Ok(response);
     }
+
+    #endregion
+
+    #region Update
+
+    [HttpPut("update")]
+    public IActionResult UpdateMetric([FromQuery] int id,[FromBody] CpuMetricCreateRequest request)
+    {
+        _logger.LogInformation($"Update Request: \nTime = {request.Time}\nValue = {request.Value}");
+        _repository.Update(new CpuMetric()
+        {
+            Id = id,
+            Value = request.Value,
+            Time = request.Time
+        });
+        return Ok("Updated");
+    }
+
+    #endregion
+
+    #region Delete
+
+    [HttpDelete("delete")]
+    public IActionResult DeleteMetric([FromQuery] int id)
+    {
+        _repository.Delete(id);
+        return Ok("Deleted");
+    }
+
+    #endregion
 }

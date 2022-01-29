@@ -14,6 +14,8 @@ public class HDDMetricsController : ControllerBase
         _repository = repo;
     }
 
+    #region Create
+
     [HttpPost("create")]
     public IActionResult Create([FromBody] HddMetricCreateRequest request)
     {
@@ -25,6 +27,10 @@ public class HDDMetricsController : ControllerBase
         });
         return Ok();
     }
+
+    #endregion
+
+    #region Read
 
     [HttpGet("all")]
     public IActionResult GetAll()
@@ -47,4 +53,34 @@ public class HDDMetricsController : ControllerBase
             response.Metrics.Add(_mapper.Map<HddMetricDto>(metric));
         return Ok(response);
     }
+
+    #endregion
+
+    #region Update
+
+    [HttpPut("update")]
+    public IActionResult UpdateMetric([FromQuery] int id, [FromBody] DotNetCreateRequest request)
+    {
+        _logger.LogInformation($"Update Request: \nTime = {request.Time}\nValue = {request.Value}");
+        _repository.Update(new HddMetric()
+        {
+            Id = id,
+            Value = request.Value,
+            Time = request.Time
+        });
+        return Ok("Updated");
+    }
+
+    #endregion
+
+    #region Delete
+
+    [HttpDelete("delete")]
+    public IActionResult DeleteMetric([FromQuery] int id)
+    {
+        _repository.Delete(id);
+        return Ok("Deleted");
+    }
+
+    #endregion
 }
