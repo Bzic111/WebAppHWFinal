@@ -1,5 +1,4 @@
-﻿using MetricsAgent.Other;
-using CpuMetric = MetricsAgent.Other.CpuMetric;
+﻿using CpuMetric = MetricsAgent.Other.CpuMetric;
 
 namespace MetricsAgent.Controllers;
 

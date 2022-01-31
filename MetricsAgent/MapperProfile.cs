@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-
-public class MapperProfile : Profile
+﻿public class MapperProfile : Profile
 {
     public MapperProfile()
     {
