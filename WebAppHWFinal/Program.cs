@@ -1,5 +1,8 @@
+using MetricsManager;
+using MetricsManager.Interfaces;
 using NLog;
 using NLog.Web;
+using Polly;
 
 var logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 logger.Debug("init main");
@@ -15,7 +18,8 @@ try
     builder.Services.AddControllers();
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
-
+    builder.Services.AddHttpClient();
+    builder.Services.AddHttpClient<IMetricsAgentClient, MetricsAgentClient>().AddTransientHttpErrorPolicy(p => p.WaitAndRetryAsync(3, _ => TimeSpan.FromMilliseconds(1000)));
     var app = builder.Build();
     if (app.Environment.IsDevelopment())
     {
