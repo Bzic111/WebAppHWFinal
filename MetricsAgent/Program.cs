@@ -11,6 +11,12 @@ global using NLog.Web;
 global using System.Data.SQLite;
 global using System.Globalization;
 global using AutoMapper;
+using Quartz;
+using Quartz.Spi;
+using MetricsAgent;
+using Quartz.Impl;
+using MetricsAgent.Jobs;
+
 var logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 
 logger.Debug("init main");
@@ -35,6 +41,13 @@ try
     builder.Services.AddSingleton(mapper);
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
+    builder.Services.AddSingleton<IJobFactory, SingletonJobFactory>();
+    builder.Services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
+    builder.Services.AddSingleton<CpuMetricJob>();
+    builder.Services.AddSingleton(new JobSchedule(jobType: typeof(CpuMetricJob), cronExpression: "0/5 * * * * ?"));
+    builder.Services.AddSingleton(new JobSchedule(jobType: typeof(RamMetricJob), cronExpression: "0/5 * * * * ?"));
+    builder.Services.AddHostedService<QuartzHostedService>();
+
 
     var app = builder.Build();
     if (app.Environment.IsDevelopment())
