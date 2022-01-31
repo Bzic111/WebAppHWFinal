@@ -35,10 +35,39 @@ public class CpuMetricJob : IJob
 public class RamMetricJob : IJob
 {
     private IRamMetricsRepository _repository;
+    private PerformanceCounter _ramCounter;
     public RamMetricJob(IRamMetricsRepository rep)
     {
         _repository = rep;
+        _ramCounter = new PerformanceCounter("Memory", "% Usage", "_Total");
     }
+    public Task Execute(IJobExecutionContext context)
+    {
+        var ramUsageInPercent = Convert.ToInt32(_ramCounter.NextValue());
+        return Task.CompletedTask;
+    }
+}
+public class HddMetricJob :IJob
+{
+    private IHddMetricsRepository _repository;
+    public HddMetricJob(IHddMetricsRepository rep)
+    {
+        _repository = rep;
+    }
+    public Task Execute(IJobExecutionContext context)
+    {
+        return Task.CompletedTask;
+    }
+}
+public class DotnetMetricsJob : IJob
+{
+    public Task Execute(IJobExecutionContext context)
+    {
+        return Task.CompletedTask;
+    }
+}
+public class NetworkMetricJob : IJob
+{
     public Task Execute(IJobExecutionContext context)
     {
         return Task.CompletedTask;

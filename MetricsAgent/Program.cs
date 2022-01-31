@@ -11,6 +11,7 @@ global using NLog.Web;
 global using System.Data.SQLite;
 global using System.Globalization;
 global using AutoMapper;
+using Microsoft.Extensions.DependencyInjection;
 using Quartz;
 using Quartz.Spi;
 using MetricsAgent;
