@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MetricsManager.DAL.Repositoryes;
+using Microsoft.AspNetCore.Mvc;
 
 namespace MetricsManager.Controllers;
 

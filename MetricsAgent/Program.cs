@@ -1,3 +1,4 @@
+global using AutoMapper;
 global using Dapper;
 global using MetricsAgent.DAL.DTO;
 global using MetricsAgent.DAL.Interfaces;
@@ -10,8 +11,6 @@ global using NLog;
 global using NLog.Web;
 global using System.Data.SQLite;
 global using System.Globalization;
-global using AutoMapper;
-using MetricsAgent;
 
 var logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 
@@ -37,6 +36,8 @@ try
     builder.Services.AddSingleton(mapper);
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
+    //var sp = builder.Services.BuildServiceProvider();
+
 
     //builder.Services.AddSingleton<IJobFactory, SingletonJobFactory>();
     //builder.Services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();

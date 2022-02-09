@@ -7,7 +7,7 @@ public class NetworkMetricsController : ControllerBase
     private readonly ILogger<NetworkMetricsController> _logger;
     private INetworkRepository _repository;
     private readonly IMapper _mapper;
-    
+
     public NetworkMetricsController(INetworkRepository repo, ILogger<NetworkMetricsController> logger, IMapper mapper)
     {
         _mapper = mapper;
@@ -44,7 +44,7 @@ public class NetworkMetricsController : ControllerBase
         return Ok(response);
     }
 
-    [HttpGet("from/filter")]
+    [HttpGet("filter")]
     public IActionResult GetFilteredMetrics([FromQuery] DateTime fromTime, [FromQuery] DateTime toTime)
     {
         var metrics = _repository.GetByTimePeriod(fromTime, toTime);

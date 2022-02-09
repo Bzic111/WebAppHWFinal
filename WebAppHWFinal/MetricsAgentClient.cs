@@ -1,33 +1,117 @@
-﻿using Microsoft.Extensions.Logging;
-using System;
-using System.Net.Http;
+﻿using MetricsManager.DAL.Interfaces;
+using MetricsManager.DAL.Requests;
+using MetricsManager.DAL.Responses;
 using System.Text.Json;
-using MetricsManager.Responses;
-using MetricsManager.Requests;
-using MetricsManager.Interfaces;
+using ILogger = Microsoft.Extensions.Logging.ILogger;
+//using ILogger = NLog.ILogger;
 
-namespace MetricsManager
+namespace MetricsManager;
+
+public class MetricsAgentClient : IMetricsAgentClient
 {
-    public class MetricsAgentClient : IMetricsAgentClient
+    private readonly HttpClient _httpClient;
+    private readonly ILogger _logger;
+    public MetricsAgentClient(HttpClient httpClient, ILogger logger)
     {
-        public AllHddMetricsApiResponse GetAllHddMetrics(GetAllHddMetricsApiRequest request)
+        _httpClient = httpClient;
+        _logger = logger;
+    }
+    public AllHddMetricsApiResponse? GetAllHddMetrics(GetAllHddMetricsApiRequest request)
+    {
+        string req = $"{request.ClientBaseAddress}/api/metrics/hdd/left/filter/{request.FromTime}/to/{request.ToTime}";
+        var httpRequest = new HttpRequestMessage(HttpMethod.Get, req); 
+        try
         {
-            throw new NotImplementedException();
+            using HttpResponseMessage response = _httpClient.SendAsync(httpRequest).Result;//  SendAsync(httpRequest).Result;
+            using var responseStream = response.Content.ReadAsStreamAsync().Result;
+            return JsonSerializer.DeserializeAsync<AllHddMetricsApiResponse>(responseStream).Result;
         }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.Message);
+        }
+        return null;
+    }
 
-        public AllRamMetricsApiResponse GetAllRamMetrics(GetAllRamMetricsApiRequest request)
+    public AllRamMetricsApiResponse? GetAllRamMetrics(GetAllRamMetricsApiRequest request)
+    {
+        string req = $"{request.ClientBaseAddress}/api/metrics/ram/available/filter/{request.FromTime}/to/{request.ToTime}";
+        var httpRequest = new HttpRequestMessage(HttpMethod.Get, req);
+        try
         {
-            throw new NotImplementedException();
+            using (var response = _httpClient.SendAsync(httpRequest).Result)
+            {
+                using (var responseStream = response.Content.ReadAsStreamAsync().Result)
+                {
+                    return JsonSerializer.DeserializeAsync<AllRamMetricsApiResponse>(responseStream).Result;
+                }
+            }
         }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.Message);
+        }
+        return null;
+    }
 
-        public AllCpuMetricsApiResponse GetCpuMetrics(GetAllCpuMetricsApiRequest request)
+    public AllCpuMetricsApiResponse? GetCpuMetrics(GetAllCpuMetricsApiRequest request)
+    {
+        string req = $"{request.ClientBaseAddress}/api/metrics/cpu/usage/filter/{request.FromTime}/to/{request.ToTime}";
+        var httpRequest = new HttpRequestMessage(HttpMethod.Get, req); 
+        try
         {
-            throw new NotImplementedException();
+            using (var response = _httpClient.SendAsync(httpRequest).Result)
+            {
+                using (var responseStream = response.Content.ReadAsStreamAsync().Result)
+                {
+                    return JsonSerializer.DeserializeAsync<AllCpuMetricsApiResponse>(responseStream).Result;
+                }
+            }
         }
-
-        public DonNetMetricsApiResponse GetDonNetMetrics(DonNetHeapMetrisApiRequest request)
+        catch (Exception ex)
         {
-            throw new NotImplementedException();
+            _logger.LogError(ex.Message);
         }
+        return null;
+    }
+    public AllDonNetMetricsApiResponse? GetDonNetMetrics(GetDonNetHeapMetrisApiRequest request)
+    {
+        string req = $"{request.ClientBaseAddress}/api/metrics/hdd/left/filter/{request.FromTime}/to/{request.ToTime}";
+        var httpRequest = new HttpRequestMessage(HttpMethod.Get, req);
+        try
+        {
+            using (var response = _httpClient.SendAsync(httpRequest).Result)
+            {
+                using (var responseStream = response.Content.ReadAsStreamAsync().Result)
+                {
+                    return JsonSerializer.DeserializeAsync<AllDonNetMetricsApiResponse>(responseStream).Result;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.Message);
+        }
+        return null;
+    }
+    public AllNetworkMetricsApiResponse? GetNetworkMetrics(GetNetworkMetrisApiRequest request)
+    {
+        string req = $"{request.ClientBaseAddress}/api/metrics/network/filter/{request.FromTime}/to/{request.ToTime}";
+        var httpRequest = new HttpRequestMessage(HttpMethod.Get, req);
+        try
+        {
+            using (var response = _httpClient.SendAsync(httpRequest).Result)
+            {
+                using (var responseStream = response.Content.ReadAsStreamAsync().Result)
+                {
+                    return JsonSerializer.DeserializeAsync<AllNetworkMetricsApiResponse>(responseStream).Result;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.Message);
+        }
+        return null;
     }
 }

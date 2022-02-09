@@ -123,3 +123,15 @@
 2022-01-31 14:22:41.7014 Warn Skipping unrecognized property 'tolower=true` for ${level} (NLog.LayoutRenderers.LevelLayoutRenderer)
 2022-01-31 14:22:41.7014 Info Adding target ConsoleTarget(Name=lifetimeConsole)
 2022-01-31 14:22:41.7657 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, ConfigItems=65, FilePath=/app/bin/Debug/net6.0/NLog.config
+2022-02-08 14:46:16.3510 Info Message Template Auto Format enabled
+2022-02-08 14:46:16.3636 Info Loading assembly: NLog.Web.AspNetCore
+2022-02-08 14:46:16.4260 Info Adding target FileTarget(Name=allfile)
+2022-02-08 14:46:16.4260 Info Adding target FileTarget(Name=ownFile-web)
+2022-02-08 14:46:16.4260 Warn Skipping unrecognized property 'tolower=true` for ${level} (NLog.LayoutRenderers.LevelLayoutRenderer)
+2022-02-08 14:46:16.4378 Info Adding target ConsoleTarget(Name=lifetimeConsole)
+2022-02-08 14:46:16.4835 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, ConfigItems=65, FilePath=/app/bin/Debug/net6.0/NLog.config
+2022-02-08 14:48:23.1419 Info Shutdown() called. Logger closing...
+2022-02-08 14:48:23.1419 Info Closing old configuration.
+2022-02-08 14:48:23.1677 Info Logger has been closed down.
+2022-02-08 14:48:23.1677 Info AppDomain Shutting down. Logger closing...
+2022-02-08 14:48:23.1769 Info Logger has been shut down.

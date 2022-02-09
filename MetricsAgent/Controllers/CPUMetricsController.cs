@@ -7,7 +7,7 @@ public class CPUMetricsController : ControllerBase
     private ICpuMetricsRepository _repository;
     private readonly ILogger<CPUMetricsController> _logger;
     private readonly IMapper _mapper;
-    
+
     public CPUMetricsController(ICpuMetricsRepository repo, ILogger<CPUMetricsController> logger, IMapper mapper)
     {
         _logger = logger;
@@ -60,7 +60,7 @@ public class CPUMetricsController : ControllerBase
     #region Update
 
     [HttpPut("update")]
-    public IActionResult UpdateMetric([FromQuery] int id,[FromBody] CpuMetricCreateRequest request)
+    public IActionResult UpdateMetric([FromQuery] int id, [FromBody] CpuMetricCreateRequest request)
     {
         _logger.LogInformation($"Update Request: \nTime = {request.Time}\nValue = {request.Value}");
         _repository.Update(new CpuMetric()

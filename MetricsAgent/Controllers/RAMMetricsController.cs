@@ -7,7 +7,7 @@ public class RAMMetricsController : ControllerBase
     private readonly ILogger<RAMMetricsController> _logger;
     private IRamMetricsRepository _repository;
     private readonly IMapper _mapper;
-    
+
     public RAMMetricsController(IRamMetricsRepository repo, ILogger<RAMMetricsController> logger, IMapper mapper)
     {
         _mapper = mapper;
