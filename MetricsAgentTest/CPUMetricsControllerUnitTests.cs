@@ -1,15 +1,11 @@
-using MetricsAgent.DTO;
 using MetricsAgent.Controllers;
-using MetricsAgent.Interfaces;
-using MetricsAgent.Models;
 using Moq;
 using System;
 using Xunit;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
-using MetricsAgent.Responses;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
+using MetricsAgent.DAL.Interfaces;
+using MetricsAgent.DAL.Models;
 //using MetricsAgent.DAL;
 
 

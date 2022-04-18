@@ -1,21 +1,24 @@
-using System.Globalization;
-using NLog;
-using NLog.Web;
-using MetricsAgent.Interfaces;
-using MetricsAgent.Repositoryes;
-using System.Data.SQLite;
-using MetricsAgent.Models;
-//using MetricsAgent.DAL;
+global using Dapper;
+global using MetricsAgent.DAL.DTO;
+global using MetricsAgent.DAL.Interfaces;
+global using MetricsAgent.DAL.Models;
+global using MetricsAgent.DAL.Repositoryes;
+global using MetricsAgent.DAL.Requests;
+global using MetricsAgent.DAL.Responses;
+global using Microsoft.AspNetCore.Mvc;
+global using NLog;
+global using NLog.Web;
+global using System.Data.SQLite;
+global using System.Globalization;
+global using AutoMapper;
+var logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 
-
-
-
-var logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 logger.Debug("init main");
-
 
 try
 {
+    var mapperConfiguration = new MapperConfiguration(mp => mp.AddProfile(new MapperProfile()));
+    var mapper = mapperConfiguration.CreateMapper();
     var builder = WebApplication.CreateBuilder(args);
     builder.Logging.ClearProviders();
     builder.Logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
@@ -29,7 +32,7 @@ try
     builder.Services.AddScoped<IHddMetricsRepository, HddMetricsRepository>();
     builder.Services.AddScoped<IDotNetRepository, DotNetMetricsRepository>();
     builder.Services.AddScoped<INetworkRepository, NetworkMetricsRepository>();
-
+    builder.Services.AddSingleton(mapper);
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
 
@@ -61,8 +64,6 @@ finally                                                                         
     NLog.LogManager.Shutdown();
 }
 
-
-
 void CreateTestTables()
 {
     string[] tables =
@@ -87,7 +88,7 @@ void CreateTestTables()
                 cmd.ExecuteNonQuery();
                 for (int i = 0; i < 10; i++)
                 {
-                    string temp = $"INSERT INTO {item}(value, time) VALUES({(i + 10) * 2},\'{DateTime.Now.ToString("s",CultureInfo.GetCultureInfo("ru-RU"))}\')";
+                    string temp = $"INSERT INTO {item}(value, time) VALUES({(i + 10) * 2},\'{DateTime.Now.ToString("s", CultureInfo.GetCultureInfo("ru-RU"))}\')";
                     cmd.CommandText = temp;
                     cmd.ExecuteNonQuery();
                 }
@@ -96,7 +97,6 @@ void CreateTestTables()
         }
     }
 }
-
 void ConfigureSqlLiteConnection(IServiceCollection services)
 {
     const string connectionString = "Data Source = metrics.db; Version = 3; Pooling = true; Max Pool Size = 100; ";

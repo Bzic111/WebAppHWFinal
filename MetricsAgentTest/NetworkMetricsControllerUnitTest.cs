@@ -1,12 +1,11 @@
 ﻿using MetricsAgent.Controllers;
-using MetricsAgent.Interfaces;
-using MetricsAgent.Models;
 using Moq;
 using System;
 using System.Collections.Generic;
 using Xunit;
 using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Mvc;
+using MetricsAgent.DAL.Interfaces;
+using MetricsAgent.DAL.Models;
 
 namespace MetricsAgentTest;
 
@@ -15,7 +14,7 @@ public class NetworkMetricsControllerUnitTest
     private NetworkMetricsController controller;
     private Mock<INetworkRepository> mock;
     private Mock<ILogger<NetworkMetricsController>> mockLogger;
-    
+
     public NetworkMetricsControllerUnitTest()
     {
         mockLogger = new Mock<ILogger<NetworkMetricsController>>();

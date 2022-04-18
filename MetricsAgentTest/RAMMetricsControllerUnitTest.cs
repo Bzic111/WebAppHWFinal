@@ -1,12 +1,11 @@
 ﻿using MetricsAgent.Controllers;
-using MetricsAgent.Interfaces;
-using MetricsAgent.Models;
 using Moq;
 using System;
 using System.Collections.Generic;
 using Xunit;
 using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Mvc;
+using MetricsAgent.DAL.Models;
+using MetricsAgent.DAL.Interfaces;
 
 namespace MetricsAgentTest;
 
@@ -15,7 +14,7 @@ public class RAMMetricsControllerUnitTest
     private RAMMetricsController controller;
     private Mock<IRamMetricsRepository> mock;
     private Mock<ILogger<RAMMetricsController>> logger;
-    
+
     public RAMMetricsControllerUnitTest()
     {
         mock = new Mock<IRamMetricsRepository>();

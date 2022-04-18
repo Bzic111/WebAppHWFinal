@@ -1,8 +1,5 @@
 using NLog;
 using NLog.Web;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Hosting;
 
 var logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 logger.Debug("init main");
